@@ -1,0 +1,6 @@
+// netlify/functions/checkout.ts — Compra única (Checkout Pro). W1.
+import { notImplemented, type NetlifyHandler } from "../../src/netlify";
+
+const handler: NetlifyHandler = () => notImplemented("W1");
+
+export default handler;
