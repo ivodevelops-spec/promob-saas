@@ -30,6 +30,8 @@ export interface Product {
   faqs: ProductFaq[];
   /** Marca de contenido de demostración/provisional. */
   demo: boolean;
+  /** ID de video de YouTube de la ficha (opcional). */
+  video?: string;
 }
 
 export const products: Product[] = [
@@ -41,6 +43,7 @@ export const products: Product[] = [
     headline:
       "Diseñe muebles a medida en 3D y genere planos y cortes sin rehacer el trabajo.",
     art: "plus",
+    video: "mT6GmD0Qua4",
     features: [
       "Modelado 3D de muebles y ambientes a medida",
       "Planos técnicos y listas de corte automáticas",
@@ -143,6 +146,7 @@ export const products: Product[] = [
     headline:
       "Optimice el corte de placas y convierta el desperdicio en margen.",
     art: "cut",
+    video: "MKdWxeTNn3Q",
     features: [
       "Planes de corte optimizados por placa",
       "Aprovechamiento calculado antes de cortar",

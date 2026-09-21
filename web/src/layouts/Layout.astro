@@ -9,7 +9,7 @@ interface Props {
   title: string;
   description: string;
   canonical?: string;
-  current?: "productos" | "planes" | "soporte" | "contacto";
+  current?: "empresa" | "productos" | "planes" | "soporte" | "contacto";
 }
 
 const SITE_URL = "https://promob.com.ar";
@@ -18,6 +18,7 @@ const canonicalUrl = new URL(canonical ?? Astro.url.pathname, SITE_URL).href;
 const ogImageUrl = new URL("/og.png", SITE_URL).href;
 
 const navLinks = [
+  { label: "Empresa", href: "/empresa/", key: "empresa" },
   { label: "Productos", href: "/productos/", key: "productos" },
   { label: "Planes y precios", href: "/planes/", key: "planes" },
   { label: "Soporte", href: "/soporte/", key: "soporte" },
@@ -34,7 +35,7 @@ const navLinks = [
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#123b25" />
+    <meta name="theme-color" content="#2e3b44" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="PROMOB" />
     <meta property="og:locale" content="es_AR" />
@@ -129,6 +130,7 @@ const navLinks = [
         <nav class="footer-col" aria-label="Enlaces">
           <p class="footer-title">Enlaces</p>
           <ul class="footer-list">
+            <li><a class="footer-link" href="/empresa/">Empresa</a></li>
             <li><a class="footer-link" href="/planes/">Planes y precios</a></li>
             <li><a class="footer-link" href="/soporte/">Soporte</a></li>
             <li><a class="footer-link" href="/contacto/">Contacto</a></li>

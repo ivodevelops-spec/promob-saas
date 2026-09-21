@@ -1,0 +1,249 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Button from "../components/Button.astro";
+import Card from "../components/Card.astro";
+import Icon from "../components/Icon.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+
+const pilares = [
+  {
+    title: "Venta y asesoramiento",
+    text: "Ayudamos a elegir el producto y el plan correcto según el tamaño y las necesidades de cada taller o fábrica.",
+    icon: "check-circle" as const,
+  },
+  {
+    title: "Soporte local en español",
+    text: "Equipo de soporte en Argentina, en español y en horario local: instalación, dudas de uso y acompañamiento diario.",
+    icon: "info" as const,
+  },
+  {
+    title: "Capacitación y puesta en marcha",
+    text: "Acompañamos la adopción del software con capacitación práctica para que el equipo saque provecho desde el primer día.",
+    icon: "check-circle" as const,
+  },
+];
+
+const numeros = [
+  { value: "18.000+", label: "puntos de venta y fábricas usan Promob en el mundo" },
+  { value: "4 países", label: "atendemos: Argentina, Uruguay, Chile y Paraguay" },
+  { value: "4 áreas", label: "diseño, fabricación, gestión y plug-ins" },
+  { value: "Local", label: "soporte y facturación en Argentina" },
+];
+---
+
+<Layout
+  title="Empresa — promob Argentina"
+  description="Somos el distribuidor oficial de Promob (una empresa Cyncly) en Argentina: comercialización, soporte local en español y capacitación para el sector del mueble."
+  canonical="/empresa/"
+>
+  <section class="section page-head">
+    <div class="container">
+      <p class="eyebrow">Empresa</p>
+      <h1 class="page-title">Distribuidores oficiales de promob en Argentina</h1>
+      <p class="page-sub">
+        Somos parte de la red de distribuidores de <strong>Promob</strong> — una empresa
+        <strong>Cyncly</strong>, la mayor desarrolladora de software para el sector del mueble del
+        mundo — y acompañamos a talleres, fábricas y estudios de diseño en Argentina, Uruguay,
+        Chile y Paraguay.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--about" aria-labelledby="quienes-somos">
+    <div class="container about">
+      <SectionHeading id="quienes-somos" eyebrow="Quiénes somos" title="Especialistas en muebles, no solo en software" />
+      <p class="about-text">
+        Promob desarrolla desde hace décadas las herramientas que usan los que hacen muebles:
+        diseño 3D, planos y listas de corte, optimización de placas, render y gestión del taller.
+        Hoy forma parte de <strong>Cyncly</strong>, un grupo global de tecnología para el diseño y
+        la fabricación, y sus productos se usan en más de 18.000 puntos de venta y fábricas en todo
+        el mundo.
+      </p>
+      <p class="about-text">
+        Nuestro rol como distribuidor oficial es acercar esas herramientas al mercado local: con
+        soporte en español, precios en pesos y un acompañamiento real durante la instalación,
+        la capacitación y el uso diario.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--pillars" aria-labelledby="que-hacemos">
+    <div class="container">
+      <SectionHeading id="que-hacemos" eyebrow="Qué hacemos" title="Del primer contacto al trabajo diario" />
+      <ul class="pillars-grid">
+        {pilares.map((pilar) => (
+          <li>
+            <Card padding="md">
+              <span class="pillar-icon"><Icon name={pilar.icon} size={22} /></span>
+              <h3 class="pillar-title">{pilar.title}</h3>
+              <p class="pillar-text">{pilar.text}</p>
+            </Card>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--numbers on-dark" aria-labelledby="numeros">
+    <div class="container">
+      <h2 id="numeros" class="numbers-title">Promob en números</h2>
+      <dl class="numbers-grid">
+        {numeros.map((item) => (
+          <div class="number-item">
+            <dt>{item.value}</dt>
+            <dd>{item.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section--cta" aria-label="Contacto">
+    <div class="container">
+      <div class="cta-final">
+        <h2 class="cta-final__title">¿Quiere conocer el software?</h2>
+        <p class="cta-final__text">
+          Le mostramos los productos, resolvemos dudas y lo ayudamos a elegir el plan adecuado
+          para su taller.
+        </p>
+        <div class="cta-final__actions">
+          <Button href="/planes/" size="lg">Ver planes y precios</Button>
+          <WhatsAppButton variant="outline" size="lg" label="Hablar por WhatsApp" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .eyebrow {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-700);
+    margin-bottom: var(--space-2);
+  }
+
+  .page-title {
+    max-width: 26ch;
+  }
+
+  .page-sub {
+    margin-top: var(--space-3);
+    max-width: 68ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--ink-600);
+  }
+
+  .about-text {
+    margin-top: var(--space-3);
+    max-width: 72ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--ink-700);
+  }
+
+  .pillars-grid {
+    list-style: none;
+    margin-top: var(--space-4);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .pillars-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .pillar-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    background: var(--brand-100);
+    color: var(--brand-700);
+    margin-bottom: var(--space-3);
+  }
+
+  .pillar-title {
+    font-size: var(--text-h4);
+    color: var(--brand-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .pillar-text {
+    font-size: var(--text-body);
+    color: var(--ink-600);
+  }
+
+  .numbers-title {
+    color: var(--surface);
+    font-size: var(--text-h2);
+  }
+
+  .numbers-grid {
+    margin-top: var(--space-6);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .numbers-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .numbers-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .number-item dt {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-extrabold);
+    color: var(--accent-300);
+  }
+
+  .number-item dd {
+    margin-top: var(--space-1);
+    font-size: var(--text-caption);
+    color: var(--on-dark-muted);
+  }
+
+  .cta-final {
+    background: var(--surface);
+    border: 2px solid var(--brand-700);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    text-align: center;
+  }
+
+  .cta-final__title {
+    font-size: var(--text-h2);
+    color: var(--brand-900);
+  }
+
+  .cta-final__text {
+    margin-top: var(--space-2);
+    max-width: 62ch;
+    margin-inline: auto;
+    color: var(--ink-600);
+  }
+
+  .cta-final__actions {
+    margin-top: var(--space-5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+  }
+</style>

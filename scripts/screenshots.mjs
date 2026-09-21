@@ -24,6 +24,7 @@ const shots = [
   { name: "05-sitio-checkout", url: "/checkout/" },
   { name: "06-sitio-contacto", url: "/contacto/" },
   { name: "07-sitio-soporte", url: "/soporte/" },
+  { name: "13-sitio-empresa", url: "/empresa/" },
   { name: "08-panel-dashboard", url: "/admin/#/dashboard" },
   { name: "09-panel-clientes", url: "/admin/#/clientes" },
   { name: "10-panel-suscripciones", url: "/admin/#/suscripciones" },

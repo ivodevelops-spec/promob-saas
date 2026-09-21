@@ -12,6 +12,7 @@ export const GET: APIRoute = () => {
     "/checkout/",
     "/contacto/",
     "/soporte/",
+    "/empresa/",
     "/legales/terminos/",
     "/legales/privacidad/",
     "/legales/reembolsos/",

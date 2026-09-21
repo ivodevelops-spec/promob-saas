@@ -105,6 +105,57 @@ const steps = [
     </div>
   </section>
 
+  {product.video && (
+    <section class="section section--video" aria-labelledby="video-titulo">
+      <div class="container video-wrap">
+        <SectionHeading
+          id="video-titulo"
+          eyebrow="Video"
+          title={`${product.name} en acción`}
+        />
+        <div class="video-frame">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${product.video}`}
+            title={`Video de ${product.name}`}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <p class="video-note">
+          Video oficial del producto, publicado por Promob en su canal de YouTube.
+        </p>
+      </div>
+    </section>
+  )}
+
+  <style>
+    .video-frame {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      margin-top: var(--space-4);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: var(--brand-900);
+      box-shadow: var(--shadow-md);
+    }
+
+    .video-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-note {
+      margin-top: var(--space-2);
+      font-size: var(--text-micro);
+      color: var(--ink-400);
+    }
+  </style>
+
   <section class="section section--steps on-dark" aria-labelledby="como-contrata">
     <div class="container">
       <h2 id="como-contrata" class="steps-title">Cómo se contrata</h2>
