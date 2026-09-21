@@ -6,7 +6,7 @@
    Nada usa estilos sueltos: todo referencia tokens.css.
    ============================================================ */
 
-import type { Customer, Payment, Subscription } from "../../src/db/types";
+import type { Customer, Payment, Subscription } from "../../../src/db/types";
 import { alert, el, emptyState, skeleton } from "../ui";
 import type { CellValue, ColumnDef } from "../ui";
 import { svgIcon } from "../icons";

@@ -163,11 +163,14 @@ export function renderSuscripciones(): HTMLElement {
 }
 
 /** Fila de la tabla: cliente, producto, estado, fechas y acción. */
-function subscriptionRowView(row: SubscriptionRow): Record<string, string | number | HTMLElement> {
+function subscriptionRowView(
+  row: SubscriptionRow,
+  reload: () => void,
+): Record<string, string | number | HTMLElement> {
   const openButton = el("button", { class: "btn btn--sm btn--outline", type: "button", text: "Ver detalle" });
   openButton.addEventListener("click", (event) => {
     event.stopPropagation();
-    void openSubscriptionDetail(row, () => {});
+    void openSubscriptionDetail(row, reload);
   });
   return {
     cliente: row.customerEmail,
@@ -237,7 +240,11 @@ function actionsPanel(row: SubscriptionRow, errorBox: HTMLElement, onChanged: ()
   };
 
   /** Botón que exige confirmación destructiva con motivo. */
-  const destructive = (options: { title: string; consequence: string; confirmLabel: string }, action: "suspend" | "cancel", successMessage: string): void => {
+  const destructive = (
+    options: { title: string; consequence: string; confirmLabel: string; reasonLabel?: string },
+    action: "suspend" | "cancel",
+    successMessage: string,
+  ): void => {
     const button = el("button", { class: `btn btn--sm ${action === "cancel" ? "btn--danger" : "btn--outline"}`, type: "button", text: options.confirmLabel });
     button.addEventListener("click", () => {
       void promptReason(options).then((reason) => {
