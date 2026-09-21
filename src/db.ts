@@ -1,20 +1,14 @@
-// src/db.ts — Fábrica de cliente Supabase (service role). Real.
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { getConfig } from "./config";
-
-let client: SupabaseClient | null = null;
-
-/**
- * Devuelve un cliente Supabase autenticado con la service-role key.
- * La service-role saltea RLS (acceso full) — usarlo SOLO del lado servidor.
- */
-export function getDb(): SupabaseClient {
-  if (client) {
-    return client;
-  }
-  const cfg = getConfig();
-  client = createClient(cfg.supabaseUrl, cfg.supabaseServiceRoleKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-  return client;
-}
+// src/db.ts — Punto de entrada del repositorio para el modo demo.
+//
+// IMPORTANTE: este barrel NO importa el driver de Supabase (`./db/supabase`)
+// para que el camino de demo jamás cargue `@supabase/supabase-js`.
+// El driver real se importa en forma explícita desde `./db/supabase`
+// únicamente cuando `DATA_DRIVER=supabase` (cableado de producción).
+export * from "./db/types";
+export {
+  createMemoryRepository,
+  type MemoryRepository,
+  type MemoryRepositoryExtras,
+  type MemoryRepositoryOptions,
+} from "./db/memory";
+export { buildDemoSeed, type DemoSeed } from "./db/seed";

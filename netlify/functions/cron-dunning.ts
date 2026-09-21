@@ -1,10 +1,20 @@
-// netlify/functions/cron-dunning.ts — Recordatorios + dunning (scheduled, diario). W2.
-import { notImplemented, type NetlifyFunctionConfig, type NetlifyHandler } from "../../src/netlify";
+// netlify/functions/cron-dunning.ts — Cron diario de mora (función programada).
+// El cron es el ÚNICO que envía emails de dunning; los webhooks no envían nada.
+import { runDunning } from "../../src/dunning";
+import { json, serverError } from "../../src/http";
+import type { NetlifyFunctionConfig, NetlifyHandler } from "../../src/netlify";
+import { getRuntime } from "../../src/runtime";
 
-export const config: NetlifyFunctionConfig = {
-  schedule: "@daily",
+export const config: NetlifyFunctionConfig = { schedule: "@daily" };
+
+const handler: NetlifyHandler = async () => {
+  try {
+    const runtime = await getRuntime();
+    const result = await runDunning(runtime);
+    return json({ ok: true, ...result });
+  } catch (error) {
+    return serverError(error instanceof Error ? error.message : "Error inesperado.");
+  }
 };
-
-const handler: NetlifyHandler = () => notImplemented("W2");
 
 export default handler;

@@ -175,18 +175,16 @@ const DAY_MS = 86_400_000;
  * - Se arma el cronograma completo, se descartan las acciones con `dueAt <= now`
  *   (solo quedan las estrictamente futuras) y se devuelve la más temprana.
  */
-export function nextDunningAction(
+export function dunningSchedule(
   policy: DunningPolicy,
   subscription: { status: SubscriptionStatus; nextPaymentDate: string | null },
-  now: Date | string,
-): DunningAction | null {
+): DunningAction[] {
   const { status, nextPaymentDate } = subscription;
   if (nextPaymentDate === null || status === "canceled" || status === "lapsed") {
-    return null;
+    return [];
   }
 
   const dueMs = Date.parse(nextPaymentDate);
-  const nowMs = typeof now === "string" ? Date.parse(now) : now.getTime();
   const dueAt = (offsetDays: number): string =>
     new Date(dueMs + offsetDays * DAY_MS).toISOString();
 
@@ -214,8 +212,17 @@ export function nextDunningAction(
     });
   }
 
-  const upcoming = schedule
-    .filter((action) => Date.parse(action.dueAt) > nowMs)
-    .sort((a, b) => Date.parse(a.dueAt) - Date.parse(b.dueAt));
+  return schedule.sort((a, b) => Date.parse(a.dueAt) - Date.parse(b.dueAt));
+}
+
+export function nextDunningAction(
+  policy: DunningPolicy,
+  subscription: { status: SubscriptionStatus; nextPaymentDate: string | null },
+  now: Date | string,
+): DunningAction | null {
+  const nowMs = typeof now === "string" ? Date.parse(now) : now.getTime();
+  const upcoming = dunningSchedule(policy, subscription).filter(
+    (action) => Date.parse(action.dueAt) > nowMs,
+  );
   return upcoming[0] ?? null;
 }

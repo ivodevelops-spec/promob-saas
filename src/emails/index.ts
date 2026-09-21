@@ -142,5 +142,136 @@ const receiptTemplate: EmailTemplate = {
     ),
 };
 
+// --- recordatorios previos al vencimiento ---
+const reminder7Template: EmailTemplate = {
+  subject: () => "Su suscripción PROMOB se renueva en 7 días",
+  html: (vars) =>
+    render(
+      layout(
+        "Su suscripción se renueva en 7 días",
+        `<p>Estimado {{nombre}}:</p>
+<p>Le recordamos que la suscripción a <strong>{{producto}}</strong> se renueva el <strong>{{fecha}}</strong> con el cobro automático mensual.</p>
+<p>No hace falta que haga nada: el cobro se procesa solo. Si necesita actualizar su tarjeta, puede hacerlo desde el siguiente enlace.</p>
+${cta("https://promob.ar/cuenta", "Ver mi suscripción")}`,
+      ),
+      vars,
+    ),
+};
+
+const reminder3Template: EmailTemplate = {
+  subject: () => "Su suscripción PROMOB se renueva en 3 días",
+  html: (vars) =>
+    render(
+      layout(
+        "La renovación es en 3 días",
+        `<p>Estimado {{nombre}}:</p>
+<p>El cobro de <strong>{{producto}}</strong> se procesará el <strong>{{fecha}}</strong>. Si su tarjeta cambió, actualícela hoy para evitar interrupciones.</p>
+${cta("https://promob.ar/cuenta", "Actualizar mi tarjeta")}`,
+      ),
+      vars,
+    ),
+};
+
+// --- avisos de pago rechazado (dunning) ---
+const dunning1Template: EmailTemplate = {
+  subject: () => "No pudimos procesar su pago — PROMOB",
+  html: (vars) =>
+    render(
+      layout(
+        "No pudimos procesar su pago",
+        `<p>Estimado {{nombre}}:</p>
+<p>El cobro de <strong>{{producto}}</strong> correspondiente al <strong>{{fecha}}</strong> no pudo procesarse. Vamos a reintentarlo automáticamente en los próximos días.</p>
+<p>Si el problema es de fondos o de la tarjeta, puede resolverlo actualizando su medio de pago:</p>
+${cta("https://promob.ar/cuenta", "Verificar mi tarjeta")}
+<p style="color:#6b7280;font-size:14px;">Si ya regularizó el pago, ignore este mensaje.</p>`,
+      ),
+      vars,
+    ),
+};
+
+const dunning4Template: EmailTemplate = {
+  subject: () => "Atención: su pago sigue pendiente — PROMOB",
+  html: (vars) =>
+    render(
+      layout(
+        "Su pago sigue pendiente",
+        `<p>Estimado {{nombre}}:</p>
+<p>El cobro de <strong>{{producto}}</strong> continúa rechazado. Quedan pocos reintentos automáticos antes de que la suscripción entre en suspensión.</p>
+<p>Para mantener su acceso sin interrupciones, regularice el pago desde el siguiente enlace:</p>
+${cta("https://promob.ar/cuenta", "Regularizar el pago")}`,
+      ),
+      vars,
+    ),
+};
+
+const dunning8Template: EmailTemplate = {
+  subject: () => "Último aviso antes de la suspensión — PROMOB",
+  html: (vars) =>
+    render(
+      layout(
+        "Último aviso antes de la suspensión",
+        `<p>Estimado {{nombre}}:</p>
+<p>El pago de <strong>{{producto}}</strong> sigue sin procesarse. Si no se regulariza antes del <strong>{{fecha}}</strong>, la suscripción quedará suspendida y el acceso al software se cortará.</p>
+${cta("https://promob.ar/cuenta", "Pagar ahora")}`,
+      ),
+      vars,
+    ),
+};
+
+// --- suspensión y baja ---
+const suspensionTemplate: EmailTemplate = {
+  subject: () => "Su suscripción PROMOB fue suspendida",
+  html: (vars) =>
+    render(
+      layout(
+        "Su suscripción fue suspendida",
+        `<p>Estimado {{nombre}}:</p>
+<p>Como el pago de <strong>{{producto}}</strong> no pudo procesarse dentro del plazo, la suscripción quedó suspendida y el acceso al software se encuentra pausado.</p>
+<p>Puede reactivarla en cualquier momento regularizando el pago; su información y su configuración se conservan intactas.</p>
+${cta("https://promob.ar/cuenta", "Reactivar mi suscripción")}`,
+      ),
+      vars,
+    ),
+};
+
+const lapseTemplate: EmailTemplate = {
+  subject: () => "Su suscripción PROMOB fue dada de baja",
+  html: (vars) =>
+    render(
+      layout(
+        "Su suscripción fue dada de baja",
+        `<p>Estimado {{nombre}}:</p>
+<p>Transcurrido el plazo de suspensión sin regularizar el pago, la suscripción a <strong>{{producto}}</strong> quedó dada de baja.</p>
+<p>Si desea volver a trabajar con PROMOB, puede contratar una nueva licencia cuando quiera: el acceso se entrega por email en minutos.</p>
+${cta("https://promob.ar/planes", "Ver planes y precios")}`,
+      ),
+      vars,
+    ),
+};
+
+// --- alerta interna al dueño (formato utilitario) ---
+const ownerAlertTemplate: EmailTemplate = {
+  subject: () => "Alerta interna — PROMOB",
+  html: (vars) =>
+    render(
+      layout(
+        "Alerta interna",
+        `<p><strong>Detalle:</strong> {{detalle}}</p>
+<p><strong>Fecha:</strong> {{fecha}}</p>
+<p>Abra el panel de gestión para revisar el caso:</p>
+${cta("https://promob.ar/admin", "Abrir el panel")}`,
+      ),
+      vars,
+    ),
+};
+
 registerTemplate("welcome-code", welcomeCodeTemplate);
 registerTemplate("receipt", receiptTemplate);
+registerTemplate("reminder-7", reminder7Template);
+registerTemplate("reminder-3", reminder3Template);
+registerTemplate("dunning-1", dunning1Template);
+registerTemplate("dunning-4", dunning4Template);
+registerTemplate("dunning-8", dunning8Template);
+registerTemplate("suspension", suspensionTemplate);
+registerTemplate("lapse", lapseTemplate);
+registerTemplate("owner-alert", ownerAlertTemplate);
