@@ -1,0 +1,46 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import { products } from "../../data/products";
+---
+
+<Layout
+  title="Productos — PROMOB"
+  description="Cinco soluciones para diseñar, fabricar, gestionar y presentar: Plus Professional, Start, Manager, Cut Pro y Real Scene 2.0."
+  canonical="/productos/"
+  current="productos"
+>
+  <section class="section">
+    <div class="container">
+      <h1>Productos</h1>
+      <p class="page-sub">
+        Elija la solución que su taller necesita: del diseño 3D al control de
+        la producción, en un solo ecosistema.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--grid" aria-label="Catálogo de productos">
+    <div class="container">
+      <div class="products-grid">
+        {products.map((product) => (
+          <ProductCard product={product} />
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-sub {
+    margin-top: var(--space-2);
+    max-width: 60ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--ink-500);
+  }
+
+  .section--grid {
+    padding-block-start: 0;
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+interface Props {
+  id?: string;
+  title: string;
+  subtitle?: string;
+  eyebrow?: string;
+  align?: "left" | "center";
+  level?: "h1" | "h2";
+}
+
+const { id, title, subtitle, eyebrow, align = "left", level = "h2" } =
+  Astro.props;
+const Tag = level;
+---
+
+<div class:list={["sheading", `sheading--${align}`]}>
+  {eyebrow && <p class="sheading__eyebrow">{eyebrow}</p>}
+  <Tag id={id}>{title}</Tag>
+  {subtitle && <p class="sheading__subtitle">{subtitle}</p>}
+</div>
+
+<style>
+  .sheading--center {
+    text-align: center;
+  }
+
+  .sheading--center .sheading__subtitle {
+    margin-inline: auto;
+  }
+
+  .sheading__eyebrow {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-700);
+  }
+
+  .sheading__subtitle {
+    margin-top: var(--space-2);
+    max-width: 64ch;
+    font-size: var(--text-body);
+    color: var(--ink-500);
+  }
+</style>

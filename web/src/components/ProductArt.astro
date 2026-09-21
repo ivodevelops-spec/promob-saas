@@ -1,0 +1,145 @@
+---
+export type ProductArtVariant = "plus" | "start" | "manager" | "cut" | "scene";
+
+interface Props {
+  variant: ProductArtVariant;
+  size?: number;
+  class?: string;
+}
+
+const { variant, size = 32, class: className } = Astro.props;
+---
+
+{
+  variant === "plus" && (
+    <svg class={className} width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <polygon class="art-fill-700" points="32,8 52,18 32,28 12,18"></polygon>
+      <polygon class="art-fill-600" points="12,18 32,28 32,52 12,42"></polygon>
+      <polygon class="art-fill-900" points="52,18 52,42 32,52 32,28"></polygon>
+      <line class="art-stroke-gold" x1="37" y1="34.5" x2="50.5" y2="30.5"></line>
+      <line class="art-stroke-gold" x1="37" y1="43" x2="50.5" y2="39"></line>
+    </svg>
+  )
+}
+{
+  variant === "start" && (
+    <svg class={className} width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <rect class="art-fill-100" x="4" y="8" width="56" height="48" rx="4" stroke="var(--brand-700)" stroke-width="2"></rect>
+      <rect class="art-fill-700" x="10" y="14" width="18" height="13" rx="2"></rect>
+      <rect class="art-fill-600" x="32" y="14" width="14" height="13" rx="2"></rect>
+      <rect class="art-fill-700" x="48" y="14" width="10" height="13" rx="2"></rect>
+      <rect class="art-fill-gold-500" x="10" y="31" width="14" height="19" rx="2"></rect>
+      <rect class="art-fill-700" x="28" y="31" width="18" height="17" rx="2"></rect>
+      <rect class="art-fill-600" x="48" y="31" width="10" height="15" rx="2"></rect>
+    </svg>
+  )
+}
+{
+  variant === "manager" && (
+    <svg class={className} width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <rect class="art-fill-surface" x="14" y="14" width="36" height="42" rx="3" stroke="var(--brand-700)" stroke-width="2"></rect>
+      <rect class="art-fill-gold-500" x="26" y="8" width="12" height="9" rx="2"></rect>
+      <rect class="art-fill-700" x="20" y="24" width="24" height="3" rx="1.5"></rect>
+      <rect class="art-fill-600" x="20" y="32" width="24" height="3" rx="1.5"></rect>
+      <rect class="art-fill-600" x="20" y="40" width="14" height="3" rx="1.5"></rect>
+      <path class="art-stroke-gold-500" d="M38 38.5 42 42.5 50 34" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  )
+}
+{
+  variant === "cut" && (
+    <svg class={className} width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <rect class="art-fill-100" x="6" y="12" width="34" height="38" rx="3" stroke="var(--brand-700)" stroke-width="2"></rect>
+      <line class="art-dash" x1="12" y1="46" x2="34" y2="24"></line>
+      <g stroke="var(--brand-700)" stroke-width="2.5" stroke-linecap="round">
+        <line x1="60" y1="40" x2="63" y2="40"></line>
+        <line x1="56.2" y1="49.2" x2="58.3" y2="51.3"></line>
+        <line x1="47" y1="53" x2="47" y2="56"></line>
+        <line x1="37.8" y1="49.2" x2="35.7" y2="51.3"></line>
+        <line x1="34" y1="40" x2="31" y2="40"></line>
+        <line x1="37.8" y1="30.8" x2="35.7" y2="28.7"></line>
+        <line x1="47" y1="27" x2="47" y2="24"></line>
+        <line x1="56.2" y1="30.8" x2="58.3" y2="28.7"></line>
+      </g>
+      <circle class="art-fill-surface" cx="47" cy="40" r="13" stroke="var(--brand-700)" stroke-width="2"></circle>
+      <circle class="art-fill-700" cx="47" cy="40" r="3.5"></circle>
+    </svg>
+  )
+}
+{
+  variant === "scene" && (
+    <svg class={className} width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <rect class="art-fill-100" x="6" y="10" width="52" height="42" rx="3" stroke="var(--brand-700)" stroke-width="2"></rect>
+      <rect class="art-fill-floor" x="6" y="38" width="52" height="10"></rect>
+      <line class="art-stroke-700-thin" x1="6" y1="38" x2="58" y2="38"></line>
+      <circle class="art-fill-gold" cx="46" cy="20" r="5"></circle>
+      <g stroke="var(--accent-500)" stroke-width="2" stroke-linecap="round">
+        <line x1="46" y1="10.5" x2="46" y2="13"></line>
+        <line x1="55.5" y1="20" x2="53" y2="20"></line>
+        <line x1="36.5" y1="20" x2="39" y2="20"></line>
+        <line x1="46" y1="29.5" x2="46" y2="27"></line>
+      </g>
+      <rect class="art-fill-700" x="16" y="44" width="14" height="8" rx="1"></rect>
+      <line class="art-stroke-gold" x1="19.5" y1="47.5" x2="26.5" y2="47.5" stroke-width="2"></line>
+    </svg>
+  )
+}
+
+<style>
+  .art-fill-700 {
+    fill: var(--brand-700);
+  }
+
+  .art-fill-600 {
+    fill: var(--brand-600);
+  }
+
+  .art-fill-900 {
+    fill: var(--brand-900);
+  }
+
+  .art-fill-100 {
+    fill: var(--brand-100);
+  }
+
+  .art-fill-surface {
+    fill: var(--surface);
+  }
+
+  .art-fill-gold {
+    fill: var(--accent-300);
+  }
+
+  .art-fill-gold-500 {
+    fill: var(--accent-500);
+  }
+
+  .art-fill-floor {
+    fill: var(--brand-600);
+    opacity: 0.18;
+  }
+
+  .art-stroke-gold {
+    stroke: var(--accent-300);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  .art-stroke-gold-500 {
+    stroke: var(--accent-500);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .art-stroke-700-thin {
+    stroke: var(--brand-700);
+    stroke-width: 2;
+  }
+
+  .art-dash {
+    stroke: var(--accent-500);
+    stroke-width: 2;
+    stroke-dasharray: 4 3;
+  }
+</style>

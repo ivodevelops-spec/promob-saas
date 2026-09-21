@@ -1,0 +1,520 @@
+---
+import "../styles/tokens.css";
+import "../styles/global.css";
+import Button from "../components/Button.astro";
+import Icon from "../components/Icon.astro";
+import Logo from "../components/Logo.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  current?: "productos" | "planes" | "soporte" | "contacto";
+}
+
+const SITE_URL = "https://promob.com.ar";
+const { title, description, canonical, current } = Astro.props;
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, SITE_URL).href;
+
+const navLinks = [
+  { label: "Productos", href: "/productos/", key: "productos" },
+  { label: "Planes y precios", href: "/planes/", key: "planes" },
+  { label: "Soporte", href: "/soporte/", key: "soporte" },
+  { label: "Contacto", href: "/contacto/", key: "contacto" },
+] as const;
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#123b25" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PROMOB" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <Logo />
+        <input
+          type="checkbox"
+          id="nav-toggle"
+          class="nav-toggle visually-hidden"
+          aria-label="Abrir menú"
+        />
+        <label class="nav-toggle-btn" for="nav-toggle" aria-hidden="true">
+          <span class="nav-toggle-icon"></span>
+        </label>
+        <nav class="site-nav" aria-label="Navegación principal">
+          <ul class="site-nav__list">
+            {
+              navLinks.map((link) => (
+                <li>
+                  <a
+                    class:list={[
+                      "site-nav__link",
+                      { "site-nav__link--active": current === link.key },
+                    ]}
+                    href={link.href}
+                    aria-current={current === link.key ? "page" : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="site-nav__cta">
+            <Button href="/planes/" variant="primary">Comprar</Button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-col footer-col--brand">
+          <Logo />
+          <p class="footer-tagline">
+            Software para diseñar, fabricar y gestionar muebles. Distribuidor
+            oficial para Argentina, Uruguay, Chile y Paraguay.
+          </p>
+          <p class="footer-contact">
+            <span class="footer-contact__label">Contacto</span>
+            <a
+              class="footer-link footer-link--strong"
+              href="https://wa.me/5491150993627"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              WhatsApp +54 9 11 5099-3627
+            </a>
+          </p>
+        </div>
+
+        <nav class="footer-col" aria-label="Productos">
+          <p class="footer-title">Productos</p>
+          <ul class="footer-list">
+            <li><a class="footer-link" href="/productos/promob-plus/">Plus Professional</a></li>
+            <li><a class="footer-link" href="/productos/promob-start/">Start</a></li>
+            <li><a class="footer-link" href="/productos/promob-manager/">Manager</a></li>
+            <li><a class="footer-link" href="/productos/promob-cut/">Cut Pro</a></li>
+            <li><a class="footer-link" href="/productos/real-scene/">Real Scene 2.0</a></li>
+          </ul>
+        </nav>
+
+        <nav class="footer-col" aria-label="Enlaces">
+          <p class="footer-title">Enlaces</p>
+          <ul class="footer-list">
+            <li><a class="footer-link" href="/planes/">Planes y precios</a></li>
+            <li><a class="footer-link" href="/soporte/">Soporte</a></li>
+            <li><a class="footer-link" href="/contacto/">Contacto</a></li>
+          </ul>
+        </nav>
+
+        <nav class="footer-col" aria-label="Legal">
+          <p class="footer-title">Legal</p>
+          <ul class="footer-list">
+            <li><a class="footer-link" href="/legales/terminos/">Términos y condiciones</a></li>
+            <li><a class="footer-link" href="/legales/privacidad/">Privacidad</a></li>
+            <li>
+              <a class="footer-link" href="/legales/reembolsos/"
+                >Política de reembolsos y baja</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="container footer-bottom">
+        <p>© 2026 Distribuidor Promob Argentina</p>
+        <ul class="footer-social" aria-label="Redes sociales">
+          <li>
+            <a
+              class="footer-social__link"
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <Icon name="instagram" size={18} />
+            </a>
+          </li>
+          <li>
+            <a
+              class="footer-social__link"
+              href="https://www.youtube.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+            >
+              <Icon name="youtube" size={18} />
+            </a>
+          </li>
+          <li>
+            <a
+              class="footer-social__link"
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+            >
+              <Icon name="facebook" size={18} />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+
+    <span class="preview-chip" aria-hidden="true">VISTA PREVIA</span>
+  </body>
+</html>
+
+<style>
+  body {
+    padding-top: var(--header-height);
+  }
+
+  /* ---- Enlace de salto ---- */
+  .skip-link {
+    position: absolute;
+    top: -48px;
+    left: var(--space-4);
+    z-index: 100;
+    padding: var(--space-2) var(--space-4);
+    background: var(--brand-700);
+    color: var(--surface);
+    border-radius: var(--radius-md);
+    font-weight: var(--weight-bold);
+    text-decoration: none;
+    transition: top 150ms ease;
+  }
+
+  .skip-link:focus-visible {
+    top: var(--space-2);
+  }
+
+  /* ---- Encabezado fijo, blanco ---- */
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: var(--header-height);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    z-index: 40;
+  }
+
+  .header-inner {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  /* ---- Menú hamburguesa (CSS-only) ---- */
+  .nav-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+  }
+
+  .nav-toggle:focus-visible ~ .nav-toggle-btn {
+    outline: 2px solid var(--brand-700);
+    outline-offset: 2px;
+  }
+
+  .nav-toggle-icon,
+  .nav-toggle-icon::before,
+  .nav-toggle-icon::after {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--brand-900);
+    border-radius: 2px;
+    transition: transform 150ms ease, opacity 150ms ease;
+  }
+
+  .nav-toggle-icon {
+    position: relative;
+  }
+
+  .nav-toggle-icon::before,
+  .nav-toggle-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+
+  .nav-toggle-icon::before {
+    top: -6px;
+  }
+
+  .nav-toggle-icon::after {
+    top: 6px;
+  }
+
+  .nav-toggle:checked ~ .nav-toggle-btn .nav-toggle-icon {
+    background: transparent;
+  }
+
+  .nav-toggle:checked ~ .nav-toggle-btn .nav-toggle-icon::before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+
+  .nav-toggle:checked ~ .nav-toggle-btn .nav-toggle-icon::after {
+    top: 0;
+    transform: rotate(-45deg);
+  }
+
+  /* ---- Navegación ---- */
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: var(--space-2) var(--space-4) var(--space-4);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .nav-toggle:checked ~ .site-nav {
+    display: block;
+  }
+
+  .site-nav__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-nav__link {
+    display: block;
+    padding: var(--space-3) var(--space-2);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--ink-600);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .site-nav__link:hover {
+    background: var(--brand-50);
+    color: var(--brand-700);
+  }
+
+  .site-nav__link--active {
+    color: var(--brand-900);
+    font-weight: var(--weight-bold);
+  }
+
+  .site-nav__cta {
+    margin-top: var(--space-3);
+  }
+
+  @media (min-width: 768px) {
+    .nav-toggle-btn {
+      display: none;
+    }
+
+    .site-nav {
+      display: flex;
+      position: static;
+      align-items: center;
+      gap: var(--space-6);
+      margin-left: auto;
+      padding: 0;
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+
+    .site-nav__list {
+      flex-direction: row;
+      gap: var(--space-5);
+    }
+
+    .site-nav__link {
+      padding: var(--space-2);
+    }
+
+    .site-nav__cta {
+      margin-top: 0;
+    }
+  }
+
+  /* ---- Pie de página ---- */
+  .site-footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding-block: var(--space-12) var(--space-6);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: 1.5fr 1fr 0.8fr 1fr;
+      gap: var(--space-6);
+    }
+  }
+
+  .footer-tagline {
+    margin-top: var(--space-3);
+    max-width: 36ch;
+    font-size: var(--text-body);
+    color: var(--ink-500);
+  }
+
+  .footer-contact {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: var(--text-caption);
+  }
+
+  .footer-contact__label {
+    font-weight: var(--weight-bold);
+    color: var(--ink-900);
+  }
+
+  .footer-title {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-900);
+  }
+
+  .footer-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .footer-link {
+    font-size: var(--text-caption);
+    color: var(--ink-600);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .footer-link:hover {
+    color: var(--brand-700);
+    text-decoration: underline;
+  }
+
+  .footer-link--strong {
+    font-weight: var(--weight-semibold);
+    color: var(--brand-700);
+  }
+
+  .footer-bottom {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    font-size: var(--text-micro);
+    color: var(--ink-400);
+  }
+
+  .footer-social {
+    list-style: none;
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .footer-social__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    color: var(--ink-500);
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .footer-social__link:hover {
+    background: var(--brand-100);
+    color: var(--brand-700);
+  }
+
+  /* ---- Chip de vista previa (demo honesto) ---- */
+  .preview-chip {
+    position: fixed;
+    right: var(--space-4);
+    bottom: var(--space-4);
+    z-index: 50;
+    padding: 5px 12px;
+    background: var(--brand-900);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: var(--radius-pill);
+    color: var(--surface);
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    letter-spacing: 1.5px;
+    line-height: 1.4;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  @media (min-width: 1280px) {
+    .preview-chip {
+      top: 14px;
+      right: var(--space-4);
+      bottom: auto;
+    }
+  }
+
+  @media print {
+    .preview-chip {
+      display: none;
+    }
+  }
+</style>

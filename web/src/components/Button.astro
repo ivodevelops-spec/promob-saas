@@ -1,0 +1,183 @@
+---
+interface Props {
+  href?: string;
+  type?: "button" | "submit";
+  variant?: "primary" | "hero" | "outline" | "ghost" | "ghostDark" | "danger";
+  size?: "md" | "lg";
+  full?: boolean;
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  type = "button",
+  variant = "primary",
+  size = "md",
+  full = false,
+  external = false,
+  class: className,
+} = Astro.props;
+
+const classes = [
+  "btn",
+  `btn--${variant}`,
+  `btn--${size}`,
+  full ? "btn--full" : "",
+  className ?? "",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{
+  href ? (
+    <a
+      class={classes}
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button class={classes} type={type}>
+      <slot />
+    </button>
+  )
+}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: 44px;
+    padding: 10px var(--space-6);
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-md);
+    font-size: var(--text-body);
+    font-weight: var(--weight-bold);
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease,
+      box-shadow 150ms ease;
+  }
+
+  @media (min-width: 640px) {
+    .btn {
+      width: auto;
+    }
+  }
+
+  .btn--lg {
+    min-height: 48px;
+    padding: 12px var(--space-8);
+    font-size: var(--text-body-lg);
+  }
+
+  /* Primario: verde de marca, texto blanco.
+     Hover oscurece 8 % (#195636); activo oscurece 12 % (#185334). */
+  .btn--primary {
+    background: var(--brand-700);
+    color: var(--surface);
+  }
+
+  .btn--primary:hover {
+    background: #195636;
+  }
+
+  .btn--primary:active {
+    background: #185334;
+  }
+
+  /* Primario sobre hero verde: dorado claro con texto #123b25. */
+  .btn--hero {
+    background: var(--accent-300);
+    color: var(--brand-900);
+  }
+
+  .btn--hero:hover {
+    background: #d5b387;
+  }
+
+  .btn--hero:active {
+    background: #ccac81;
+  }
+
+  /* Contorno: borde #1b5e3b. */
+  .btn--outline {
+    background: var(--surface);
+    border-color: var(--brand-700);
+    color: var(--brand-700);
+  }
+
+  .btn--outline:hover {
+    background: var(--brand-50);
+  }
+
+  .btn--outline:active {
+    background: var(--brand-100);
+  }
+
+  /* Fantasma: texto #1b5e3b sobre transparente. */
+  .btn--ghost {
+    background: transparent;
+    color: var(--brand-700);
+  }
+
+  .btn--ghost:hover {
+    background: var(--brand-50);
+  }
+
+  .btn--ghost:active {
+    background: var(--brand-100);
+  }
+
+  /* Fantasma sobre hero verde (borde blanco translúcido). */
+  .btn--ghostDark {
+    background: transparent;
+    border-color: var(--on-dark-border);
+    color: var(--surface);
+  }
+
+  .btn--ghostDark:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--surface);
+  }
+
+  .btn--ghostDark:active {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  /* Peligro: fondo #b91c1c. */
+  .btn--danger {
+    background: var(--danger-fg);
+    color: var(--surface);
+  }
+
+  .btn--danger:hover {
+    background: #aa1a1a;
+  }
+
+  .btn--danger:active {
+    background: #a31919;
+  }
+
+  .btn--full {
+    width: 100%;
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+</style>

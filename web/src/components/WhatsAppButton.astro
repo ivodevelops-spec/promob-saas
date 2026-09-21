@@ -1,0 +1,34 @@
+---
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+  label?: string;
+  variant?: "primary" | "outline" | "ghostDark";
+  size?: "md" | "lg";
+  full?: boolean;
+  class?: string;
+}
+
+const {
+  label = "Hablar por WhatsApp",
+  variant = "primary",
+  size,
+  full = false,
+  class: className,
+} = Astro.props;
+
+const href = "https://wa.me/5491150993627";
+---
+
+<Button
+  href={href}
+  variant={variant}
+  size={size}
+  full={full}
+  external
+  class={className}
+>
+  <Icon name="whatsapp" size={20} />
+  <span>{label}</span>
+</Button>

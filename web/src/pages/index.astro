@@ -1,9 +1,254 @@
 ---
-import Layout from "../components/Layout.astro";
+import Layout from "../layouts/Layout.astro";
+import Button from "../components/Button.astro";
+import Icon from "../components/Icon.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ProductCard from "../components/ProductCard.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import { products } from "../data/products";
 ---
 
-<Layout title="Promob Argentina — Especialistas en muebles">
-  <h1>SOMOS ESPECIALISTAS EN MUEBLES</h1>
-  <p class="lead">Web nueva + tienda online + suscripción mensual.</p>
-  <p>Sitio en construcción — Fundación (Wave 0).</p>
+<Layout
+  title="PROMOB — Software para la industria del mueble"
+  description="Software de diseño, fabricación y gestión para talleres y fábricas de muebles. Venta online y pago mensual automático para Argentina, Uruguay, Paraguay y Chile."
+  canonical="/"
+>
+  <section class="hero on-dark">
+    <div class="container">
+      <h1 class="hero__title">
+        El software que usan más de <em>18.000 talleres y fábricas</em> de
+        muebles
+      </h1>
+      <p class="hero__sub">
+        Diseñe, gestione y optimice el corte. Ahora con venta online y pago
+        mensual automático para Argentina, Uruguay, Paraguay y Chile. Pague por
+        mes y listo: el acceso llega a su email al instante.
+      </p>
+      <div class="hero__cta">
+        <Button href="/planes/" variant="hero" size="lg"
+          >Ver planes y precios</Button
+        >
+        <WhatsAppButton variant="ghostDark" size="lg" />
+      </div>
+      <dl class="hero__trust">
+        <div class="hero__trust-item">
+          <dt>18.000+</dt>
+          <dd>puntos de venta y fábricas</dd>
+        </div>
+        <div class="hero__trust-item">
+          <dt>4 áreas</dt>
+          <dd>diseño, fabricación, gestión y plug-ins</dd>
+        </div>
+        <div class="hero__trust-item">
+          <dt>Soporte local</dt>
+          <dd>en español</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="productos-titulo">
+    <div class="container">
+      <SectionHeading
+        id="productos-titulo"
+        title="Nuestros productos"
+        subtitle="Todo lo que un taller de muebles necesita, en un solo ecosistema."
+      />
+      <div class="products-grid">
+        {products.map((product) => (
+          <ProductCard product={product} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--band" aria-label="Suscripción">
+    <div class="container">
+      <div class="band">
+        <div class="band__body">
+          <h2 class="band__title">Suscríbase y empiece a usar el software hoy</h2>
+          <p class="band__text">
+            Con cobro automático: sin renovaciones manuales, sin cortes de
+            servicio sorpresa. Puede cancelar cuando quiera.
+          </p>
+        </div>
+        <div class="band__cta">
+          <Button href="/planes/" size="lg">Suscribirme</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="soporte-titulo">
+    <div class="container support">
+      <span class="support__icon" aria-hidden="true">
+        <Icon name="whatsapp" size={28} />
+      </span>
+      <h2 id="soporte-titulo" class="support__title">
+        Soporte local, en español
+      </h2>
+      <p class="support__text">
+        ¿Tiene dudas sobre qué producto elegir? Escríbanos por WhatsApp: el
+        equipo local le responde en español y lo acompaña desde el primer día.
+      </p>
+      <WhatsAppButton variant="primary" size="lg" label="Hablar por WhatsApp" />
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* ---- Hero ---- */
+  .hero {
+    background: var(--gradient-hero);
+    color: var(--surface);
+    padding-block: var(--space-12);
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      padding-block: var(--space-16);
+    }
+  }
+
+  .hero__title {
+    max-width: 24ch;
+    font-size: 28px;
+    font-weight: var(--weight-extrabold);
+    line-height: var(--leading-display);
+    color: var(--surface);
+  }
+
+  @media (min-width: 768px) {
+    .hero__title {
+      font-size: var(--text-display);
+    }
+  }
+
+  .hero__title em {
+    font-style: normal;
+    color: var(--accent-300);
+  }
+
+  .hero__sub {
+    margin-top: var(--space-4);
+    max-width: 66ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--on-dark-text);
+  }
+
+  .hero__cta {
+    margin-top: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .hero__cta {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-4);
+    }
+  }
+
+  .hero__trust {
+    margin-top: var(--space-8);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+
+  .hero__trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .hero__trust-item dt {
+    font-size: 15px;
+    font-weight: var(--weight-bold);
+    color: var(--surface);
+  }
+
+  .hero__trust-item dd {
+    font-size: var(--text-micro);
+    color: var(--on-dark-muted);
+  }
+
+  /* ---- Banda de conversión ---- */
+  .section--band {
+    padding-block: 0;
+  }
+
+  .band {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-6);
+    background: var(--surface);
+    border: 2px solid var(--brand-700);
+    border-radius: var(--radius-xl);
+  }
+
+  @media (min-width: 768px) {
+    .band {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-6);
+      padding: var(--space-6) var(--space-8);
+    }
+
+    .band__cta {
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+  }
+
+  .band__body {
+    flex: 1;
+  }
+
+  .band__title {
+    font-size: var(--text-h3);
+    color: var(--brand-900);
+  }
+
+  .band__text {
+    margin-top: var(--space-1);
+    font-size: var(--text-body);
+    color: var(--ink-600);
+  }
+
+  /* ---- Cierre de soporte ---- */
+  .support {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 560px;
+    text-align: center;
+  }
+
+  .support__icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: var(--space-4);
+    background: var(--brand-100);
+    border-radius: var(--radius-lg);
+    color: var(--brand-700);
+  }
+
+  .support__title {
+    color: var(--brand-900);
+  }
+
+  .support__text {
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-6);
+    font-size: var(--text-body);
+    color: var(--ink-500);
+  }
+</style>

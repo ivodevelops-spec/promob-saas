@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Button from "../components/Button.astro";
+---
+
+<Layout
+  title="Página no encontrada — PROMOB"
+  description="La página que busca no existe o fue movida."
+  canonical="/404/"
+>
+  <section class="section notfound">
+    <div class="container notfound__wrap">
+      <p class="notfound__code" aria-hidden="true">404</p>
+      <h1>Página no encontrada</h1>
+      <p class="notfound__text">
+        La dirección que busca no existe o fue movida. Verifique el enlace o
+        vuelva al inicio para seguir explorando nuestros productos.
+      </p>
+      <div class="notfound__actions">
+        <Button href="/" variant="primary" size="lg">Volver al inicio</Button>
+        <Button href="/productos/" variant="outline" size="lg"
+          >Ver productos</Button
+        >
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .notfound {
+    padding-block: var(--space-16);
+  }
+
+  .notfound__wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .notfound__code {
+    font-size: 72px;
+    font-weight: var(--weight-extrabold);
+    line-height: 1;
+    color: var(--brand-100);
+  }
+
+  .notfound h1 {
+    margin-top: var(--space-3);
+  }
+
+  .notfound__text {
+    margin-top: var(--space-3);
+    max-width: 48ch;
+    font-size: var(--text-body-lg);
+    color: var(--ink-500);
+  }
+
+  .notfound__actions {
+    margin-top: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 320px;
+  }
+
+  @media (min-width: 640px) {
+    .notfound__actions {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+</style>

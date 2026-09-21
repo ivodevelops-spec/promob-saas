@@ -1,0 +1,103 @@
+---
+import type { Product } from "../data/products";
+import Icon from "./Icon.astro";
+import ProductArt from "./ProductArt.astro";
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const href = `/productos/${product.slug}/`;
+---
+
+<article class="pcard">
+  <span class="pcard__tile" aria-hidden="true">
+    <ProductArt variant={product.art} size={32} />
+  </span>
+  <h3 class="pcard__name">{product.name}</h3>
+  <p class="pcard__desc">{product.tagline}</p>
+  <a class="pcard__link" href={href}>
+    <span>Ver más</span>
+    <Icon name="arrow-right" size={14} />
+  </a>
+</article>
+
+<style>
+  .pcard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    transition: box-shadow 150ms ease, border-color 150ms ease;
+  }
+
+  .pcard:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-strong);
+  }
+
+  .pcard:has(.pcard__link:focus-visible) {
+    outline: 2px solid var(--brand-700);
+    outline-offset: 2px;
+  }
+
+  .pcard__link:focus-visible {
+    outline: none;
+  }
+
+  .pcard__tile {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--space-3);
+    background: var(--brand-100);
+    border-radius: var(--radius-lg);
+    color: var(--brand-700);
+  }
+
+  .pcard__name {
+    font-size: var(--text-h3);
+    color: var(--brand-900);
+  }
+
+  .pcard__desc {
+    margin-top: var(--space-1);
+    font-size: var(--text-body);
+    color: var(--ink-500);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .pcard__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-3);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    color: var(--brand-700);
+    text-decoration: none;
+  }
+
+  .pcard__link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .pcard__link svg {
+    transition: transform 150ms ease;
+  }
+
+  .pcard:hover .pcard__link svg {
+    transform: translateX(2px);
+  }
+</style>

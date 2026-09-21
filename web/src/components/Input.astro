@@ -1,0 +1,128 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  id: string;
+  label: string;
+  name?: string;
+  type?: string;
+  placeholder?: string;
+  help?: string;
+  error?: string;
+  required?: boolean;
+  autocomplete?: string;
+  value?: string;
+}
+
+const {
+  id,
+  label,
+  name = id,
+  type = "text",
+  placeholder,
+  help,
+  error,
+  required = false,
+  autocomplete,
+  value,
+} = Astro.props;
+
+const describedBy = error ? `${id}-error` : help ? `${id}-help` : undefined;
+---
+
+<div class="field">
+  <label class="field__label" for={id}>
+    {label}
+    {required && <span aria-hidden="true"> *</span>}
+  </label>
+  <input
+    class:list={[
+      "field__control",
+      { "field__control--error": Boolean(error) },
+    ]}
+    id={id}
+    name={name}
+    type={type}
+    placeholder={placeholder}
+    autocomplete={autocomplete}
+    value={value}
+    required={required}
+    aria-required={required ? "true" : undefined}
+    aria-invalid={error ? "true" : undefined}
+    aria-describedby={describedBy}
+  />
+  {
+    error ? (
+      <p class="field__message field__message--error" id={`${id}-error`}>
+        <Icon name="alert-triangle" size={14} />
+        <span>{error}</span>
+      </p>
+    ) : help ? (
+      <p class="field__message" id={`${id}-help`}>{help}</p>
+    ) : null
+  }
+</div>
+
+<style>
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .field__label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--ink-700);
+  }
+
+  .field__control {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px var(--space-4);
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-body);
+    color: var(--ink-900);
+    transition: border-color 150ms ease;
+  }
+
+  .field__control::placeholder {
+    color: var(--ink-400);
+  }
+
+  .field__control:focus {
+    outline: 2px solid var(--brand-700);
+    outline-offset: 2px;
+    border-color: var(--brand-700);
+  }
+
+  .field__control--error {
+    border: 2px solid var(--danger-fg);
+  }
+
+  .field__control--error:focus {
+    outline-color: var(--danger-fg);
+    border-color: var(--danger-fg);
+  }
+
+  .field__control:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--brand-50);
+  }
+
+  .field__message {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-caption);
+    line-height: var(--leading-caption);
+    color: var(--ink-500);
+  }
+
+  .field__message--error {
+    color: var(--danger-fg);
+  }
+</style>

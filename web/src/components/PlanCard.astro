@@ -1,0 +1,117 @@
+---
+import Icon from "./Icon.astro";
+import WhatsAppButton from "./WhatsAppButton.astro";
+
+interface Props {
+  title: string;
+  period?: string;
+  tag?: string;
+  benefits: string[];
+  featured?: boolean;
+}
+
+const { title, period, tag, benefits, featured = false } = Astro.props;
+---
+
+<article class:list={["plan", { "plan--featured": featured }]}>
+  {tag && <span class="plan__tag">{tag}</span>}
+  <h3 class="plan__title">{title}</h3>
+  <p class="plan__price">
+    <span class="plan__amount">Consultar</span>
+    {period && <span class="plan__period">{period}</span>}
+    <span class="plan__note">Precios próximamente: consulte por WhatsApp.</span>
+  </p>
+  <ul class="plan__benefits">
+    {benefits.map((benefit) => (
+      <li class="plan__benefit">
+        <Icon name="check" size={16} />
+        <span>{benefit}</span>
+      </li>
+    ))}
+  </ul>
+  <WhatsAppButton
+    label="Consultar"
+    variant={featured ? "primary" : "outline"}
+    full
+  />
+</article>
+
+<style>
+  .plan {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    transition: box-shadow 150ms ease;
+  }
+
+  .plan:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .plan--featured {
+    border: 2.5px solid var(--brand-700);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .plan__tag {
+    display: inline-block;
+    margin-bottom: var(--space-3);
+    padding: 4px 10px;
+    background: var(--brand-100);
+    border-radius: var(--radius-pill);
+    color: var(--brand-700);
+    font-size: 11px;
+    font-weight: var(--weight-bold);
+  }
+
+  .plan__title {
+    color: var(--brand-900);
+  }
+
+  .plan__price {
+    margin-top: var(--space-4);
+  }
+
+  .plan__amount {
+    font-size: 30px;
+    font-weight: var(--weight-extrabold);
+    color: var(--brand-900);
+  }
+
+  .plan__period {
+    margin-left: var(--space-1);
+    font-size: var(--text-body);
+    color: var(--ink-500);
+  }
+
+  .plan__note {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: var(--text-micro);
+    color: var(--ink-500);
+  }
+
+  .plan__benefits {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .plan__benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: var(--text-body);
+    color: var(--ink-700);
+  }
+
+  .plan__benefit svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--brand-700);
+  }
+</style>

@@ -1,0 +1,408 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Button from "../../components/Button.astro";
+import Card from "../../components/Card.astro";
+import Icon from "../../components/Icon.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import ProductArt from "../../components/ProductArt.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import Accordion from "../../components/Accordion.astro";
+import { products } from "../../data/products";
+import type { Product } from "../../data/products";
+
+export function getStaticPaths() {
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const related = products.filter((item) => item.slug !== product.slug);
+
+const steps = [
+  {
+    title: "Elija su plan",
+    text: "Compare modalidades en la página de planes y elija la que mejor se adapte a su taller.",
+  },
+  {
+    title: "Pague con tarjeta",
+    text: "El pago se procesa en línea de forma segura. El cobro mensual es automático y puede cancelar cuando quiera.",
+  },
+  {
+    title: "Reciba el código por email",
+    text: "En minutos llega el código de acceso a su email y puede empezar a usar el software.",
+  },
+];
+---
+
+<Layout
+  title={`${product.name} — PROMOB`}
+  description={product.tagline}
+  canonical={`/productos/${product.slug}/`}
+  current="productos"
+>
+  <section class="section product-head">
+    <div class="container product-head__grid">
+      <div>
+        <nav class="crumbs" aria-label="Ruta de navegación">
+          <a class="crumbs__link" href="/productos/">Productos</a>
+          <span class="crumbs__sep" aria-hidden="true">/</span>
+          <span aria-current="page">{product.name}</span>
+        </nav>
+        <h1 class="product-head__title">{product.name}</h1>
+        <p class="product-head__tagline">{product.headline}</p>
+        <div class="product-head__cta">
+          <Button href="/planes/" variant="primary" size="lg">Ver planes</Button>
+          <WhatsAppButton
+            variant="outline"
+            size="lg"
+            label="Consultar por WhatsApp"
+          />
+        </div>
+      </div>
+      <div class="product-head__art" aria-hidden="true">
+        <ProductArt variant={product.art} size={132} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--features" aria-labelledby="que-hace">
+    <div class="container">
+      <SectionHeading
+        id="que-hace"
+        eyebrow="Qué hace"
+        title="Beneficios principales"
+      />
+      <ul class="features-grid">
+        {product.features.map((feature) => (
+          <li>
+            <Card padding="md">
+              <span class="features-icon" aria-hidden="true">
+                <Icon name="check-circle" size={22} />
+              </span>
+              <p class="features-text">{feature}</p>
+            </Card>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--audience" aria-labelledby="para-quien">
+    <div class="container audience">
+      <SectionHeading
+        id="para-quien"
+        eyebrow="Para quién es"
+        title="Pensado para su taller"
+      />
+      <p class="audience-text">{product.audience}</p>
+    </div>
+  </section>
+
+  <section class="section section--steps on-dark" aria-labelledby="como-contrata">
+    <div class="container">
+      <h2 id="como-contrata" class="steps-title">Cómo se contrata</h2>
+      <p class="steps-sub">Tres pasos y empieza a trabajar. Sin esperas, sin papeles.</p>
+      <ol class="steps-grid">
+        {steps.map((step, index) => (
+          <li class="step">
+            <span class="step__number" aria-hidden="true">{index + 1}</span>
+            <h3 class="step__title">{step.title}</h3>
+            <p class="step__text">{step.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--faq" aria-labelledby="faq-titulo">
+    <div class="container faq-wrap">
+      <SectionHeading
+        id="faq-titulo"
+        eyebrow="Preguntas frecuentes"
+        title={`Preguntas frecuentes sobre ${product.name}`}
+      />
+      <Accordion items={product.faqs} />
+    </div>
+  </section>
+
+  <section class="section section--cta" aria-label="Llamado a la acción">
+    <div class="container">
+      <div class="cta-final">
+        <h2 class="cta-final__title">¿Listo para dar el primer paso?</h2>
+        <p class="cta-final__text">
+          Compare planes y modalidades, o consulte por WhatsApp si necesita
+          ayuda para elegir.
+        </p>
+        <div class="cta-final__actions">
+          <Button href="/planes/" variant="primary" size="lg">Ver planes</Button>
+          <WhatsAppButton
+            variant="outline"
+            size="lg"
+            label="Consultar por WhatsApp"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--related" aria-labelledby="relacionados-titulo">
+    <div class="container">
+      <SectionHeading id="relacionados-titulo" title="Productos relacionados" />
+      <div class="products-grid products-grid--4">
+        {related.map((item) => (
+          <ProductCard product={item} />
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ---- Encabezado ---- */
+  .product-head__grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .product-head__grid {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+  }
+
+  .crumbs {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-caption);
+    color: var(--ink-500);
+  }
+
+  .crumbs__link {
+    color: var(--brand-700);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+  }
+
+  .crumbs__link:hover {
+    text-decoration: underline;
+  }
+
+  .product-head__title {
+    margin-top: var(--space-3);
+    color: var(--brand-900);
+  }
+
+  .product-head__tagline {
+    margin-top: var(--space-3);
+    max-width: 56ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--ink-700);
+  }
+
+  .product-head__cta {
+    margin-top: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .product-head__cta {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-4);
+    }
+  }
+
+  .product-head__art {
+    display: grid;
+    place-items: center;
+    width: min(100%, 220px);
+    height: 180px;
+    justify-self: start;
+    background: var(--brand-100);
+    border-radius: var(--radius-xl);
+  }
+
+  @media (min-width: 768px) {
+    .product-head__art {
+      justify-self: end;
+    }
+  }
+
+  /* ---- Beneficios ---- */
+  .section--features {
+    padding-block-start: 0;
+  }
+
+  .features-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .features-grid li {
+    display: flex;
+  }
+
+  .features-grid li > :global(*) {
+    width: 100%;
+  }
+
+  .features-icon {
+    display: inline-flex;
+    color: var(--brand-700);
+  }
+
+  .features-text {
+    margin-top: var(--space-2);
+    font-size: var(--text-body);
+    color: var(--ink-700);
+  }
+
+  /* ---- Para quién es ---- */
+  .section--audience {
+    background: var(--brand-50);
+  }
+
+  .audience {
+    max-width: 760px;
+  }
+
+  .audience-text {
+    margin-top: var(--space-4);
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--ink-700);
+  }
+
+  /* ---- Cómo se contrata (banda verde) ---- */
+  .section--steps {
+    background: var(--gradient-hero);
+    color: var(--surface);
+  }
+
+  .steps-title {
+    color: var(--surface);
+  }
+
+  .steps-sub {
+    margin-top: var(--space-2);
+    font-size: var(--text-body);
+    color: var(--on-dark-text);
+  }
+
+  .steps-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .steps-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .step__number {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: var(--space-3);
+    border: 1.5px solid var(--accent-300);
+    border-radius: var(--radius-pill);
+    color: var(--accent-300);
+    font-size: var(--text-body);
+    font-weight: var(--weight-bold);
+  }
+
+  .step__title {
+    color: var(--surface);
+  }
+
+  .step__text {
+    margin-top: var(--space-2);
+    font-size: var(--text-body);
+    color: var(--on-dark-text);
+  }
+
+  /* ---- Preguntas frecuentes ---- */
+  .faq-wrap {
+    max-width: 760px;
+  }
+
+  .faq-wrap :global(.accordion) {
+    margin-top: var(--space-6);
+  }
+
+  /* ---- CTA final ---- */
+  .section--cta {
+    padding-block: 0;
+  }
+
+  .cta-final {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-8) var(--space-6);
+    background: var(--surface);
+    border: 2px solid var(--brand-700);
+    border-radius: var(--radius-xl);
+    text-align: center;
+  }
+
+  .cta-final__title {
+    color: var(--brand-900);
+  }
+
+  .cta-final__text {
+    margin-top: var(--space-2);
+    max-width: 48ch;
+    font-size: var(--text-body);
+    color: var(--ink-600);
+  }
+
+  .cta-final__actions {
+    margin-top: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 420px;
+  }
+
+  @media (min-width: 640px) {
+    .cta-final__actions {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
+  /* ---- Relacionados ---- */
+  .section--related {
+    padding-block-start: 0;
+  }
+</style>

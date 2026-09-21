@@ -1,0 +1,88 @@
+---
+import Icon from "./Icon.astro";
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<div class:list={["accordion", className]}>
+  {items.map((item, index) => (
+    <details class="accordion__item" open={index === 0}>
+      <summary class="accordion__summary">
+        <span>{item.question}</span>
+        <span class="accordion__icon" aria-hidden="true">
+          <Icon name="chevron-down" size={20} />
+        </span>
+      </summary>
+      <div class="accordion__answer">
+        <p>{item.answer}</p>
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .accordion__item {
+    background: var(--surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+  }
+
+  .accordion__item[open] {
+    border-color: var(--border-strong);
+  }
+
+  .accordion__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    cursor: pointer;
+    list-style: none;
+    font-size: var(--text-body);
+    font-weight: var(--weight-semibold);
+    color: var(--ink-900);
+    transition: color 150ms ease;
+  }
+
+  .accordion__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion__summary:hover {
+    color: var(--brand-700);
+  }
+
+  .accordion__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--ink-500);
+    transition: transform 150ms ease;
+  }
+
+  .accordion__item[open] .accordion__icon {
+    transform: rotate(180deg);
+  }
+
+  .accordion__answer {
+    padding: 0 var(--space-4) var(--space-4);
+    font-size: var(--text-body);
+    color: var(--ink-700);
+  }
+</style>

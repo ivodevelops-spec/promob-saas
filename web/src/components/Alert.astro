@@ -1,0 +1,101 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "./Icon.astro";
+
+type AlertVariant = "success" | "warning" | "danger" | "info";
+
+const ICONS: Record<AlertVariant, IconName> = {
+  success: "check-circle",
+  warning: "alert-triangle",
+  danger: "x-circle",
+  info: "info",
+};
+
+interface Props {
+  variant?: AlertVariant;
+  title?: string;
+  class?: string;
+}
+
+const { variant = "info", title, class: className } = Astro.props;
+---
+
+<div
+  class:list={["alert", `alert--${variant}`, className]}
+  role={variant === "danger" ? "alert" : "status"}
+>
+  <span class="alert__icon" aria-hidden="true">
+    <Icon name={ICONS[variant]} size={20} />
+  </span>
+  <div class="alert__body">
+    {title && <p class="alert__title">{title}</p>}
+    <p class="alert__text"><slot /></p>
+  </div>
+</div>
+
+<style>
+  .alert {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid;
+    border-radius: var(--radius-lg);
+  }
+
+  .alert__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .alert__title {
+    font-weight: var(--weight-bold);
+    color: var(--ink-900);
+  }
+
+  .alert__text {
+    font-size: var(--text-caption);
+    line-height: var(--leading-caption);
+    color: var(--ink-700);
+  }
+
+  .alert__text:not(:first-child) {
+    margin-top: var(--space-1);
+  }
+
+  .alert--success {
+    background: var(--success-bg);
+    border-color: var(--success-fg);
+  }
+
+  .alert--success .alert__icon {
+    color: var(--success-fg);
+  }
+
+  .alert--warning {
+    background: var(--warning-bg);
+    border-color: var(--warning-border);
+  }
+
+  .alert--warning .alert__icon {
+    color: var(--warning-fg);
+  }
+
+  .alert--danger {
+    background: var(--danger-bg);
+    border-color: var(--danger-fg);
+  }
+
+  .alert--danger .alert__icon {
+    color: var(--danger-fg);
+  }
+
+  .alert--info {
+    background: var(--info-bg);
+    border-color: var(--info-fg);
+  }
+
+  .alert--info .alert__icon {
+    color: var(--info-fg);
+  }
+</style>
