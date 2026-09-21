@@ -1,0 +1,118 @@
+/* ============================================================
+   PROMOB — Design tokens (panel de gestión)
+   Mismos valores que web/src/styles/tokens.css (fuente única
+   de verdad: PLAN-UX-UI-PROMOB.md §2). Ningún color, espacio,
+   radio o sombra se escribe "suelto" en una pantalla.
+   ============================================================ */
+
+:root {
+  /* ---- Colores de marca ---- */
+  --brand-900: #123b25; /* Verde profundo: hero, encabezados, pie */
+  --brand-700: #1b5e3b; /* Verde de marca: botones, enlaces, foco */
+  --brand-600: #2a7a4c; /* Verde intermedio: gradientes del hero */
+  --brand-100: #eef6f1; /* Verde muy claro: chips, íconos, resaltes */
+  --brand-50: #f3f9f5; /* Verde casi blanco: filas, cajas de info */
+  --accent-500: #b5834a; /* Dorado/madera: acentos de marca */
+  --accent-300: #e8c393; /* Dorado claro: texto sobre verde profundo */
+  --accent-100: #f7ead9; /* Dorado muy claro: etiquetas con acento */
+
+  /* ---- Superficies y tintas ---- */
+  --surface: #ffffff; /* Tarjetas, tablas, barra de navegación */
+  --canvas: #f7f5f1; /* Fondo general (crema cálido) */
+  --ink-900: #1f2933; /* Texto principal */
+  --ink-700: #3d4854; /* Texto secundario, listas de beneficios */
+  --ink-600: #4b5563; /* Texto de apoyo, enlaces de navegación */
+  --ink-500: #6b7280; /* Texto atenuado, descripciones */
+  --ink-400: #8a8f98; /* Texto tenue: notas al pie, metadatos */
+  --border: #e5e0d8; /* Bordes de tarjetas e inputs */
+  --border-strong: #d5dde0; /* Controles activos, foco secundario */
+  --border-subtle: #eef1ef; /* Separadores de filas */
+
+  /* ---- Colores semánticos (fondo / texto-borde) ---- */
+  --success-bg: #e4f3ea;
+  --success-fg: #1b5e3b;
+  --warning-bg: #fef3e2;
+  --warning-fg: #b45309;
+  --warning-border: #f0c97f;
+  --danger-bg: #fde8e8;
+  --danger-fg: #b91c1c;
+  --info-bg: #e8f0fe;
+  --info-fg: #1d4ed8;
+
+  /* ---- Texto sobre el gradiente del hero (mockups aprobados) ---- */
+  --on-dark-text: #d9e8de; /* Párrafos del hero */
+  --on-dark-muted: #cfe3d6; /* Franja de confianza del hero */
+  --on-dark-border: rgba(255, 255, 255, 0.55); /* Borde ghost sobre hero */
+
+  /* ---- Tipografía ----
+     Inter (400, 500, 600, 700, 800) con respaldo del sistema.
+     No se descarga ninguna fuente: sin dependencia de red. */
+  --font-sans: Inter, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Escala (base 16 px) */
+  --text-display: 2.375rem; /* 38 px — título principal del hero */
+  --text-h1: 1.875rem; /* 30 px — títulos de página */
+  --text-h2: 1.5rem; /* 24 px — títulos de sección */
+  --text-h3: 1.25rem; /* 20 px — títulos de tarjetas */
+  --text-h4: 1rem; /* 16 px — subtítulos */
+  --text-body-lg: 1rem; /* 16 px — párrafos del sitio */
+  --text-body: 0.875rem; /* 14 px — texto general, descripciones */
+  --text-caption: 0.8125rem; /* 13 px — etiquetas, notas */
+  --text-micro: 0.75rem; /* 12 px — notas al pie, metadatos */
+
+  --leading-display: 1.15;
+  --leading-h1: 1.25;
+  --leading-h2: 1.3;
+  --leading-h3: 1.3;
+  --leading-h4: 1.35;
+  --leading-body-lg: 1.55;
+  --leading-body: 1.5;
+  --leading-caption: 1.45;
+  --leading-micro: 1.4;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+
+  /* ---- Espaciado (escala de 4 px, sin excepciones) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---- Radios ---- */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* ---- Sombras (teñidas con el verde de marca) ---- */
+  --shadow-sm: 0 1px 2px rgba(18, 59, 37, 0.06);
+  --shadow-md: 0 4px 12px rgba(18, 59, 37, 0.08);
+  --shadow-lg: 0 10px 30px rgba(18, 59, 37, 0.12);
+  --shadow-modal: 0 20px 50px rgba(18, 59, 37, 0.18);
+
+  /* ---- Gradiente oficial del hero ----
+     Lineal a 135°, de #123b25 a #1b5e3b (55 %) y #2a7a4c (100 %). */
+  --gradient-hero: linear-gradient(
+    135deg,
+    #123b25 0%,
+    #1b5e3b 55%,
+    #2a7a4c 100%
+  );
+
+  /* ---- Layout ----
+     Breakpoints de referencia (las media queries no usan variables):
+     sm: 640 px · md: 768 px · lg: 1024 px · xl: 1280 px */
+  --container-max: 1060px; /* Ancho máximo del contenido del sitio */
+  --header-height: 64px;
+}
