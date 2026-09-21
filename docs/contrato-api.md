@@ -112,3 +112,22 @@ Acciones y payloads:
 - Dinero: montos en ARS (`amountArs`, entero de centavos NO — decimal con 2 decimales, tipo number).
 - Fechas: ISO 8601 (`2026-10-21T15:04:05Z`) en API; la UI las formatea `DD/MM/AAAA`.
 - Idioma: identificadores en inglés; textos de UI y mensajes en español (es-AR).
+
+## 7. Formas de respuesta del panel (`/api/admin-api`)
+
+Todas las listas paginadas: `{ "items": [...], "total": n, "page": 1, "pageSize": 25 }`.
+
+- `resource=dashboard`:
+```json
+{ "kpis": { "activeCustomers": 0, "activeSubscriptions": 0, "monthRevenueArs": 0, "availableCodes": 0 },
+  "alerts": [ { "kind": "past_due", "message": "…", "count": 0 } ],
+  "recentSubscriptions": [ { "id": "…", "customerEmail": "…", "productName": "…", "status": "active", "nextPaymentDate": "2026-10-21" } ],
+  "salesSeries": [ { "month": "2026-04", "totalArs": 0 } ] }
+```
+- `resource=customers`: items = `Customer` + `{ "subscriptionsCount": n, "lastPaymentAt": string|null }`
+- `resource=subscriptions`: items = `Subscription` + `{ "customerEmail", "productName" }`
+- `resource=payments`: items = `Payment` + `{ "customerEmail", "productName" }`
+- `resource=codes`: `{ "items": [ { "id", "status", "batch", "createdAt", "issuedAt", "reservedUntil" } ], "total", "page", "pageSize", "stats": { "available", "reserved", "issued", "voided", "lowStock": false } }` — **nunca exponer `codeHash` completo** (máximo 8 caracteres + "…").
+- `resource=reports`: `{ "salesSeries": [...], "totals": { "yearArs": 0, "count": 0 } }`
+- `resource=config`: items = `ConfigEntry`
+- `resource=emails`: items = `EmailLog` + `{ "customerEmail" }`

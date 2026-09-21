@@ -8,6 +8,9 @@ admin/dist/
 web/.astro/
 .astro/
 
+# Datos y salidas del modo demo (servidor local)
+out/
+
 # Variables de entorno (nunca commitear secretos)
 .env
 .env.*

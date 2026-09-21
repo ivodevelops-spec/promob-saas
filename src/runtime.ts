@@ -24,6 +24,11 @@ export function getRuntime(): Promise<Runtime> {
   return cached;
 }
 
+/** Reinicia la runtime (el simulador del demo lo usa para re-sembrar). */
+export function resetRuntime(): void {
+  cached = null;
+}
+
 async function buildRuntime(): Promise<Runtime> {
   const config = getConfig();
   if (config.dataDriver !== "memory") {

@@ -13,6 +13,7 @@
     "build:web": "astro build --root web",
     "build:admin": "vite build --config admin/vite.config.ts",
     "build": "node scripts/build.mjs",
+    "demo": "node scripts/demo-server.mjs",
     "typecheck": "tsc --noEmit && tsc -p admin && tsc -p e2e",
     "test": "vitest run",
     "test:watch": "vitest",
