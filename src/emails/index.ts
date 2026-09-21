@@ -67,9 +67,9 @@ function layout(title: string, body: string): string {
 </head>
 <body style="margin:0;padding:0;background:#f3f4f6;">
   <div style="max-width:600px;margin:0 auto;background:#ffffff;font-family:Arial,Helvetica,sans-serif;">
-    <div style="background:#123b25;color:#ffffff;padding:16px 24px;font-size:18px;font-weight:bold;letter-spacing:2px;">PROMOB</div>
+    <div style="background:#2e3b44;color:#ffffff;padding:16px 24px;font-size:18px;font-weight:bold;letter-spacing:2px;">PROMOB</div>
     <div style="padding:24px;font-size:16px;line-height:1.55;color:#1f2933;">
-      <h3 style="margin:0 0 16px;font-size:20px;color:#123b25;">${title}</h3>
+      <h3 style="margin:0 0 16px;font-size:20px;color:#2e3b44;">${title}</h3>
       ${body}
     </div>
     ${FOOTER}
@@ -81,7 +81,7 @@ function layout(title: string, body: string): string {
 /** Botón de llamada a la acción con los colores de la marca. */
 function cta(href: string, label: string): string {
   return `<div style="margin:24px 0;text-align:center;">
-  <a href="${href}" style="display:inline-block;background:#1b5e3b;color:#ffffff;text-decoration:none;height:44px;line-height:44px;padding:0 28px;border-radius:8px;font-size:16px;font-weight:bold;">${label}</a>
+  <a href="${href}" style="display:inline-block;background:#077d6d;color:#ffffff;text-decoration:none;height:44px;line-height:44px;padding:0 28px;border-radius:8px;font-size:16px;font-weight:bold;">${label}</a>
 </div>`;
 }
 
@@ -94,8 +94,8 @@ const welcomeCodeTemplate: EmailTemplate = {
         "Su licencia de PROMOB ya está disponible",
         `<p>Estimado {{nombre}}:</p>
 <p>Gracias por su compra. Su licencia de PROMOB ya está disponible. Este es su código de activación:</p>
-<div style="margin:16px 0;padding:16px;background:#eef6f1;border:1px solid #1b5e3b;border-radius:8px;text-align:center;">
-  <div style="font-family:'Courier New',monospace;font-size:24px;font-weight:bold;letter-spacing:2px;color:#123b25;">{{code}}</div>
+<div style="margin:16px 0;padding:16px;background:#e3f6f2;border:1px solid #077d6d;border-radius:8px;text-align:center;">
+  <div style="font-family:'Courier New',monospace;font-size:24px;font-weight:bold;letter-spacing:2px;color:#2e3b44;">{{code}}</div>
 </div>
 <p>Para activar su licencia, siga estos pasos:</p>
 <ol style="margin:0;padding-left:20px;">

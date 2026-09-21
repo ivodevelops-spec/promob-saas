@@ -1,6 +1,6 @@
 /* ============================================================
    PROMOB — Panel de gestión: arranque del shell.
-   Barra lateral (230 px, #123b25) + encabezado de vista (título,
+   Barra lateral (230 px, #2e3b44) + encabezado de vista (título,
    fecha de hoy, acciones, usuario "Camila · Dueño" en modo demo)
    + enrutador por hash. Si la API no responde, se muestra un
    aviso en el área de contenido sin romper la navegación.
@@ -22,7 +22,11 @@ if (!app) {
 const brand = el(
   "div",
   { class: "sidebar-brand" },
-  el("span", { class: "sidebar-brand-name", text: "PROMOB" }),
+      el("span", {
+        class: "sidebar-brand-name",
+        style: "font-style: italic; letter-spacing: -0.5px;",
+        text: "promob",
+      }),
   el("span", { class: "sidebar-brand-sub", text: "· Gestión" }),
   el("span", { class: "sidebar-brand-mono", text: "PM", "aria-hidden": "true" }),
 );

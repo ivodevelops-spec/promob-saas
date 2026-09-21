@@ -6,19 +6,19 @@
    ============================================================ */
 
 :root {
-  /* ---- Colores de marca ---- */
-  --brand-900: #123b25; /* Verde profundo: hero, encabezados, pie */
-  --brand-700: #1b5e3b; /* Verde de marca: botones, enlaces, foco */
-  --brand-600: #2a7a4c; /* Verde intermedio: gradientes del hero */
-  --brand-100: #eef6f1; /* Verde muy claro: chips, íconos, resaltes */
-  --brand-50: #f3f9f5; /* Verde casi blanco: filas, cajas de info */
-  --accent-500: #b5834a; /* Dorado/madera: acentos de marca */
-  --accent-300: #e8c393; /* Dorado claro: texto sobre verde profundo */
-  --accent-100: #f7ead9; /* Dorado muy claro: etiquetas con acento */
+  /* ---- Colores de marca (branding oficial Promob · A Cyncly Company) ---- */
+  --brand-900: #2e3b44; /* Pizarra del logotipo: hero, encabezados, pie */
+  --brand-700: #077d6d; /* Teal Promob: botones, enlaces, foco (AA con blanco) */
+  --brand-600: #0b8a7a; /* Teal brillante: gradientes del hero y acentos */
+  --brand-100: #e3f6f2; /* Teal muy claro: chips, íconos, resaltes */
+  --brand-50: #f0faf8; /* Teal casi blanco: filas, cajas de info */
+  --accent-500: #5b2fe0; /* Violeta Cyncly: acento de marca */
+  --accent-300: #c9b8ff; /* Lavanda clara: texto destacado sobre oscuro */
+  --accent-100: #efeafd; /* Lavanda muy clara: etiquetas con acento */
 
   /* ---- Superficies y tintas ---- */
   --surface: #ffffff; /* Tarjetas, tablas, barra de navegación */
-  --canvas: #f7f5f1; /* Fondo general (crema cálido) */
+  --canvas: #f2f1ef; /* Fondo general (gris cálido claro de la marca) */
   --ink-900: #1f2933; /* Texto principal */
   --ink-700: #3d4854; /* Texto secundario, listas de beneficios */
   --ink-600: #4b5563; /* Texto de apoyo, enlaces de navegación */
@@ -29,8 +29,8 @@
   --border-subtle: #eef1ef; /* Separadores de filas */
 
   /* ---- Colores semánticos (fondo / texto-borde) ---- */
-  --success-bg: #e4f3ea;
-  --success-fg: #1b5e3b;
+  --success-bg: #e1f5ee;
+  --success-fg: #0f7a55;
   --warning-bg: #fef3e2;
   --warning-fg: #b45309;
   --warning-border: #f0c97f;
@@ -39,9 +39,9 @@
   --info-bg: #e8f0fe;
   --info-fg: #1d4ed8;
 
-  /* ---- Texto sobre el gradiente del hero (mockups aprobados) ---- */
-  --on-dark-text: #d9e8de; /* Párrafos del hero */
-  --on-dark-muted: #cfe3d6; /* Franja de confianza del hero */
+  /* ---- Texto sobre el gradiente del hero ---- */
+  --on-dark-text: #d7e8e5; /* Párrafos del hero */
+  --on-dark-muted: #c2dbd6; /* Franja de confianza del hero */
   --on-dark-border: rgba(255, 255, 255, 0.55); /* Borde ghost sobre hero */
 
   /* ---- Tipografía ----
@@ -95,19 +95,19 @@
   --radius-xl: 16px;
   --radius-pill: 999px;
 
-  /* ---- Sombras (teñidas con el verde de marca) ---- */
-  --shadow-sm: 0 1px 2px rgba(18, 59, 37, 0.06);
-  --shadow-md: 0 4px 12px rgba(18, 59, 37, 0.08);
-  --shadow-lg: 0 10px 30px rgba(18, 59, 37, 0.12);
-  --shadow-modal: 0 20px 50px rgba(18, 59, 37, 0.18);
+  /* ---- Sombras (teñidas con el teal de marca) ---- */
+  --shadow-sm: 0 1px 2px rgba(14, 66, 58, 0.06);
+  --shadow-md: 0 4px 12px rgba(14, 66, 58, 0.08);
+  --shadow-lg: 0 10px 30px rgba(14, 66, 58, 0.12);
+  --shadow-modal: 0 20px 50px rgba(14, 66, 58, 0.18);
 
-  /* ---- Gradiente oficial del hero ----
-     Lineal a 135°, de #123b25 a #1b5e3b (55 %) y #2a7a4c (100 %). */
+  /* ---- Gradiente del hero (pizarra de marca → teal) ----
+     Lineal a 135°, de #2e3b44 a #0a6f63 (55 %) y #0b8a7a (100 %). */
   --gradient-hero: linear-gradient(
     135deg,
-    #123b25 0%,
-    #1b5e3b 55%,
-    #2a7a4c 100%
+    #2e3b44 0%,
+    #0a6f63 55%,
+    #0b8a7a 100%
   );
 
   /* ---- Layout ----

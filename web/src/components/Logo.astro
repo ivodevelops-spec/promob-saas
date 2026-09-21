@@ -6,49 +6,40 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<a class:list={["logo", className]} href="/" aria-label="PROMOB — Inicio">
-  <svg
-    class="logo__mark"
-    width="34"
-    height="34"
-    viewBox="0 0 32 32"
-    fill="none"
-    aria-hidden="true"
-  >
-    <rect width="32" height="32" rx="7" fill="var(--brand-900)"></rect>
-    <rect x="8" y="8" width="16" height="6.5" rx="1.5" fill="var(--accent-300)"></rect>
-    <rect x="8" y="17.5" width="16" height="6.5" rx="1.5" fill="var(--accent-300)"></rect>
-    <rect x="12" y="10.5" width="8" height="1.5" rx="0.75" fill="var(--brand-900)"></rect>
-    <rect x="12" y="20" width="8" height="1.5" rx="0.75" fill="var(--brand-900)"></rect>
-  </svg>
-  <span class="logo__word">PROMOB<span class="logo__reg">®</span></span>
+<a class:list={["logo", className]} href="/" aria-label="promob — Inicio">
+  <span class="logo__word">promob</span>
+  <span class="logo__tagline">A <strong>Cyncly</strong> Company</span>
 </a>
 
 <style>
   .logo {
     display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
+    flex-direction: column;
+    gap: 2px;
     text-decoration: none;
     border-radius: var(--radius-md);
-  }
-
-  .logo__mark {
-    flex-shrink: 0;
+    line-height: 1;
   }
 
   .logo__word {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: var(--weight-extrabold);
-    letter-spacing: 0.5px;
+    font-style: italic;
+    letter-spacing: -0.5px;
     line-height: 1;
     color: var(--brand-900);
     white-space: nowrap;
   }
 
-  .logo__reg {
-    color: var(--accent-500);
-    font-size: 14px;
-    vertical-align: super;
+  .logo__tagline {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--ink-500);
+    white-space: nowrap;
+  }
+
+  .logo__tagline strong {
+    color: var(--ink-700);
+    font-weight: var(--weight-semibold);
   }
 </style>

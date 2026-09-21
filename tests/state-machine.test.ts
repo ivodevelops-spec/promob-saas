@@ -263,8 +263,8 @@ describe("plantillas de email", () => {
   it("welcome-code renderiza el código en la caja destacada con los colores de marca", () => {
     const html = getTemplate("welcome-code").html({ code: "ABC" });
     expect(html).toContain("ABC");
-    expect(html).toContain("#1b5e3b");
-    expect(html).toContain("#eef6f1");
+    expect(html).toContain("#077d6d");
+    expect(html).toContain("#e3f6f2");
   });
 
   it("receipt renderiza los datos del pago", () => {

@@ -130,7 +130,7 @@ p {
   }
 }
 
-/* ---- Foco visible: anillo de 2 px #1b5e3b, separación de 2 px ---- */
+/* ---- Foco visible: anillo de 2 px #077d6d, separación de 2 px ---- */
 :focus-visible {
   outline: 2px solid var(--brand-700);
   outline-offset: 2px;
