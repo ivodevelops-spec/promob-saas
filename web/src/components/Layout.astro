@@ -1,0 +1,80 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Promob Argentina — software de diseño y fabricación de muebles." />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav>
+        <a class="brand" href="/">Promob</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <small>Promob Argentina — Fundación Wave 0</small>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --green-900: #123b25;
+    --green-700: #1b5e3b;
+    --accent: #b5834a;
+    --paper: #f7f5f1;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--green-900);
+    background: var(--paper);
+    line-height: 1.5;
+  }
+
+  .site-header {
+    background: var(--green-900);
+    padding: 1rem 2rem;
+  }
+
+  .brand {
+    color: var(--paper);
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  main {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .lead {
+    color: var(--green-700);
+    font-size: 1.15rem;
+  }
+
+  .site-footer {
+    padding: 2rem;
+    color: var(--green-700);
+    text-align: center;
+  }
+</style>

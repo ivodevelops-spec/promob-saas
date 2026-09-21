@@ -1,0 +1,38 @@
+{
+  "name": "promob-saas",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Promob SaaS + e-commerce (Astro + MercadoPago + Supabase + Resend + Netlify Functions)",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev:web": "astro dev --root web",
+    "dev:admin": "vite --config admin/vite.config.ts",
+    "build:web": "astro build --root web",
+    "build:admin": "vite build --config admin/vite.config.ts",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit && tsc -p admin && tsc -p e2e",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "e2e": "playwright test -c e2e/playwright.config.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.116.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.2",
+    "astro": "^7.3.3",
+    "eslint": "^10.11.0",
+    "prettier": "^3.9.8",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1"
+  }
+}

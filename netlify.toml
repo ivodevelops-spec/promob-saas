@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = "web/dist"
+  functions = "netlify/functions"
+
+# SPA del panel admin bajo /admin
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+# API: /api/<funcion> -> /.netlify/functions/<funcion>
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

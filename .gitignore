@@ -1,0 +1,26 @@
+# Dependencias
+node_modules/
+
+# Builds
+dist/
+web/dist/
+admin/dist/
+web/.astro/
+.astro/
+
+# Variables de entorno (nunca commitear secretos)
+.env
+.env.*
+!.env.example
+
+# Playwright
+playwright-report/
+test-results/
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+*.log
+coverage/
+.vscode/
+.idea/
