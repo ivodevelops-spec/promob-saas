@@ -1,0 +1,264 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CountryChips from "../components/CountryChips.astro";
+import PlanCard from "../components/PlanCard.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import { products } from "../data/products";
+
+const countries = [
+  { code: "AR" as const, name: "Argentina", currency: "ARS" },
+  { code: "UY" as const, name: "Uruguay", currency: "UYU" },
+  { code: "CL" as const, name: "Chile", currency: "CLP" },
+  { code: "PY" as const, name: "Paraguay", currency: "PYG" },
+];
+
+const defaultSlug = products[0].slug;
+
+const benefitsMensual = [
+  "Cobro automático todos los meses, sin trámites de renovación",
+  "Acceso completo al producto elegido desde el primer día",
+  "Cancelación sin penalidad cuando lo desee",
+  "Soporte local en español",
+];
+
+const benefitsAnual = [
+  "Un solo pago al año, sin renovaciones mensuales",
+  "Dos meses de regalo frente al plan mensual",
+  "Acceso completo al producto elegido desde el primer día",
+  "Soporte local en español",
+];
+---
+
+<Layout
+  title="Planes y precios — PROMOB"
+  description="Elija su país, su producto y la modalidad de pago: suscripción mensual o pago único anual. Cobro automático y acceso por email al instante."
+  canonical="/planes/"
+  current="planes"
+>
+  <section class="section">
+    <div class="container">
+      <h1>Planes y precios</h1>
+      <p class="page-sub">
+        Elija su país, su producto y la modalidad que prefiera. El cobro se
+        procesa automáticamente y el acceso llega a su email al instante.
+      </p>
+
+      <div class="country-block">
+        <h2 class="step-label">1. ¿Dónde compra?</h2>
+        <CountryChips countries={countries} active="AR" />
+        <p class="country-note">
+          El pago se procesa siempre en pesos argentinos (ARS). Si compra desde
+          Uruguay, Chile o Paraguay, su banco puede aplicar la conversión a su
+          moneda local.
+        </p>
+      </div>
+
+      <div class="product-block">
+        <h2 class="step-label">2. ¿Qué producto necesita?</h2>
+        <div
+          class="product-chips"
+          role="group"
+          aria-label="Selección de producto"
+        >
+          {products.map((product, index) => (
+            <button
+              type="button"
+              class:list={["product-chip", { "product-chip--active": index === 0 }]}
+              data-slug={product.slug}
+              aria-pressed={index === 0 ? "true" : "false"}
+            >
+              {product.name}
+            </button>
+          ))}
+        </div>
+        <p class="product-selected" aria-live="polite">
+          Producto seleccionado: <strong id="selected-name">{products[0].name}</strong>
+        </p>
+      </div>
+
+      <div class="plans-block">
+        <h2 class="step-label">3. Elija la modalidad de pago</h2>
+        <div class="plans-grid">
+          <PlanCard
+            title="Suscripción mensual"
+            tag="Más elegido"
+            featured
+            benefits={benefitsMensual}
+            ctaHref={`/checkout/?producto=${defaultSlug}&modalidad=mensual`}
+            ctaLabel="Elegir suscripción"
+            note="Precios próximamente. Cobro automático, cancelable cuando quiera."
+          />
+          <PlanCard
+            title="Pago único anual"
+            tag="Ahorrás 2 meses"
+            benefits={benefitsAnual}
+            ctaHref={`/checkout/?producto=${defaultSlug}&modalidad=anual`}
+            ctaLabel="Elegir pago anual"
+            note="Precios próximamente. Un solo pago, sin renovaciones."
+          />
+        </div>
+      </div>
+
+      <p class="plans-footnote">
+        Los precios de referencia se publican próximamente: consúltenos por
+        WhatsApp. La entrega del acceso es por email, en minutos, una vez
+        confirmado el pago. La suscripción mensual se cancela en cualquier
+        momento, sin penalidad.
+      </p>
+
+      <div class="plans-cta">
+        <WhatsAppButton
+          label="Consultar precios por WhatsApp"
+          variant="outline"
+        />
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-sub {
+    margin-top: var(--space-2);
+    max-width: 60ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--ink-500);
+  }
+
+  .country-block,
+  .product-block,
+  .plans-block {
+    margin-top: var(--space-10);
+  }
+
+  .step-label {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-500);
+  }
+
+  .country-note {
+    margin-top: var(--space-2);
+    max-width: 60ch;
+    font-size: var(--text-caption);
+    line-height: var(--leading-caption);
+    color: var(--ink-500);
+  }
+
+  /* Selector de producto: chips con desplazamiento horizontal en móvil */
+  .product-chips {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    padding-block: var(--space-1);
+    scrollbar-width: none;
+  }
+
+  .product-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .product-chip {
+    flex-shrink: 0;
+    min-height: 40px;
+    padding: 7px var(--space-4);
+    background: var(--surface);
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--ink-600);
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease;
+  }
+
+  .product-chip:hover {
+    background: var(--brand-50);
+    border-color: var(--brand-700);
+  }
+
+  .product-chip--active,
+  .product-chip--active:hover {
+    background: var(--brand-700);
+    border-color: var(--brand-700);
+    color: var(--surface);
+  }
+
+  .product-selected {
+    margin-top: var(--space-2);
+    font-size: var(--text-caption);
+    color: var(--ink-500);
+  }
+
+  .product-selected strong {
+    color: var(--brand-900);
+  }
+
+  /* Tarjetas de plan: apiladas en móvil, dos columnas desde tablet */
+  .plans-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  @media (min-width: 768px) {
+    .plans-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-6);
+    }
+  }
+
+  .plans-footnote {
+    margin-top: var(--space-8);
+    max-width: 72ch;
+    font-size: var(--text-micro);
+    line-height: var(--leading-micro);
+    color: var(--ink-400);
+  }
+
+  .plans-cta {
+    margin-top: var(--space-5);
+  }
+</style>
+
+<script>
+  // Selector de producto: actualiza el producto seleccionado y las CTA de
+  // los planes hacia /checkout/ con el slug y la modalidad correspondientes.
+  const chips = Array.from(
+    document.querySelectorAll<HTMLButtonElement>(".product-chip"),
+  );
+  const selectedName = document.getElementById("selected-name");
+  const planLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>(".plan .btn"),
+  );
+
+  if (chips.length > 0 && planLinks.length > 0) {
+    const setActive = (chip: HTMLButtonElement) => {
+      chips.forEach((other) => {
+        const active = other === chip;
+        other.classList.toggle("product-chip--active", active);
+        other.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      const slug = chip.dataset.slug ?? "";
+      if (selectedName) {
+        selectedName.textContent = chip.textContent ?? "";
+      }
+      planLinks.forEach((link) => {
+        const url = new URL(link.href);
+        url.searchParams.set("producto", slug);
+        link.href = url.toString();
+      });
+    };
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => setActive(chip));
+    });
+  }
+</script>

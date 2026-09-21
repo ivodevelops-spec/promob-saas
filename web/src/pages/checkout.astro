@@ -1,0 +1,1042 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import Button from "../components/Button.astro";
+import Badge from "../components/Badge.astro";
+import Alert from "../components/Alert.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import Icon from "../components/Icon.astro";
+import { products, getProductBySlug } from "../data/products";
+
+// Preselección desde /planes/: /checkout/?producto=slug&modalidad=mensual|anual
+const params = Astro.url.searchParams;
+const slugParam = params.get("producto") ?? "";
+const modalityParam = params.get("modalidad") === "anual" ? "anual" : "mensual";
+
+const product = getProductBySlug(slugParam) ?? products[0];
+const modality =
+  modalityParam === "anual"
+    ? { key: "anual", label: "Pago único anual" }
+    : { key: "mensual", label: "Suscripción mensual" };
+
+const countries = [
+  { value: "AR", label: "Argentina" },
+  { value: "UY", label: "Uruguay" },
+  { value: "CL", label: "Chile" },
+  { value: "PY", label: "Paraguay" },
+  { value: "OT", label: "Otro país" },
+];
+
+const submitLabel =
+  modality.key === "mensual" ? "Confirmar suscripción" : "Confirmar compra";
+const processingLabel =
+  modality.key === "mensual"
+    ? "Procesando suscripción…"
+    : "Procesando pago…";
+---
+
+<Layout
+  title="Finalizar compra — PROMOB"
+  description="Complete sus datos y los de su tarjeta para finalizar la compra. El acceso al software llega por email, en minutos."
+  canonical="/checkout/"
+>
+  <section class="section checkout-section">
+    <div class="container">
+      <h1>Finalizar compra</h1>
+      <p class="page-sub">
+        Complete sus datos y los de su tarjeta. Una vez confirmado el pago, el
+        acceso llega a su email en minutos.
+      </p>
+
+      <div
+        class="checkout-grid"
+        data-modality={modality.key}
+        data-product-slug={product.slug}
+      >
+        <Card padding="lg" class="checkout-card">
+          <ol class="stepper" aria-label="Pasos de la compra">
+            <li class="stepper__item stepper__item--active" data-step-item="1" aria-current="step">
+              <span class="stepper__num">1</span>
+              <span class="stepper__label">Datos</span>
+            </li>
+            <li class="stepper__item" data-step-item="2">
+              <span class="stepper__num">2</span>
+              <span class="stepper__label">Tarjeta</span>
+            </li>
+            <li class="stepper__item" data-step-item="3">
+              <span class="stepper__num">3</span>
+              <span class="stepper__label">Procesando</span>
+            </li>
+            <li class="stepper__item" data-step-item="4">
+              <span class="stepper__num">4</span>
+              <span class="stepper__label">Resultado</span>
+            </li>
+          </ol>
+
+          <p class="visually-hidden" aria-live="polite" id="form-status"></p>
+
+          <form id="checkout-form" novalidate>
+            <!-- Paso 1: datos del comprador -->
+            <div class="step" data-step-panel="1">
+              <h2 class="step__title" tabindex="-1">Sus datos</h2>
+
+              <div class="field">
+                <label class="field__label" for="fullname">
+                  Nombre y apellido <span aria-hidden="true"> *</span>
+                </label>
+                <input
+                  class="field__control"
+                  id="fullname"
+                  name="fullName"
+                  type="text"
+                  autocomplete="name"
+                  aria-required="true"
+                  placeholder="Ej.: Ana Pérez"
+                />
+                <p class="form-err" id="fullname-error" hidden>
+                  <Icon name="alert-triangle" size={14} />
+                  <span>Ingrese su nombre y apellido.</span>
+                </p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="email">
+                  Email <span aria-hidden="true"> *</span>
+                </label>
+                <input
+                  class="field__control"
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  aria-required="true"
+                  placeholder="nombre@empresa.com"
+                />
+                <p class="form-err" id="email-error" hidden>
+                  <Icon name="alert-triangle" size={14} />
+                  <span>Ingrese un email válido.</span>
+                </p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="email-confirm">
+                  Confirme su email <span aria-hidden="true"> *</span>
+                </label>
+                <input
+                  class="field__control"
+                  id="email-confirm"
+                  name="emailConfirm"
+                  type="email"
+                  autocomplete="off"
+                  aria-required="true"
+                  placeholder="Repita su email"
+                />
+                <p class="form-err" id="email-confirm-error" hidden>
+                  <Icon name="alert-triangle" size={14} />
+                  <span>Los emails no coinciden.</span>
+                </p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="country">
+                  País <span aria-hidden="true"> *</span>
+                </label>
+                <div class="field__select-wrap">
+                  <select
+                    class="field__control field__select"
+                    id="country"
+                    name="country"
+                    aria-required="true"
+                  >
+                    <option value="" disabled selected>
+                      Seleccione su país
+                    </option>
+                    {countries.map((country) => (
+                      <option value={country.value}>{country.label}</option>
+                    ))}
+                  </select>
+                  <span class="field__chevron" aria-hidden="true"></span>
+                </div>
+                <p class="form-err" id="country-error" hidden>
+                  <Icon name="alert-triangle" size={14} />
+                  <span>Seleccione su país.</span>
+                </p>
+              </div>
+
+              <div class="step__actions">
+                <Button type="button" variant="primary" full class="js-to-card">
+                  Continuar con el pago
+                </Button>
+              </div>
+            </div>
+
+            <!-- Paso 2: tarjeta -->
+            <div class="step" data-step-panel="2" hidden>
+              <h2 class="step__title" tabindex="-1">Datos de la tarjeta</h2>
+
+              <Alert variant="info" title="MODO DEMO: no se realiza ningún cobro">
+                Esta es una vista previa. Ningún dato de tarjeta se envía a un
+                procesador real y no se efectúa ningún cargo.
+              </Alert>
+
+              <div class="card-frame" aria-label="Formulario de tarjeta">
+                <div class="field field--wide">
+                  <label class="field__label" for="card-number">
+                    Número de tarjeta <span aria-hidden="true"> *</span>
+                  </label>
+                  <input
+                    class="field__control"
+                    id="card-number"
+                    name="cardNumber"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="cc-number"
+                    aria-required="true"
+                    placeholder="0000 0000 0000 0000"
+                    maxlength="23"
+                  />
+                </div>
+
+                <div class="card-frame__row">
+                  <div class="field">
+                    <label class="field__label" for="card-expiry">
+                      Vencimiento <span aria-hidden="true"> *</span>
+                    </label>
+                    <input
+                      class="field__control"
+                      id="card-expiry"
+                      name="cardExpiry"
+                      type="text"
+                      inputmode="numeric"
+                      autocomplete="cc-exp"
+                      aria-required="true"
+                      placeholder="MM/AA"
+                      maxlength="5"
+                    />
+                  </div>
+
+                  <div class="field">
+                    <label class="field__label" for="card-cvc">
+                      Código de seguridad <span aria-hidden="true"> *</span>
+                    </label>
+                    <input
+                      class="field__control"
+                      id="card-cvc"
+                      name="cardCvc"
+                      type="text"
+                      inputmode="numeric"
+                      autocomplete="cc-csc"
+                      aria-required="true"
+                      placeholder="123"
+                      maxlength="4"
+                    />
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="field__label" for="card-holder">
+                    Titular de la tarjeta <span aria-hidden="true"> *</span>
+                  </label>
+                  <input
+                    class="field__control"
+                    id="card-holder"
+                    name="cardHolder"
+                    type="text"
+                    autocomplete="cc-name"
+                    aria-required="true"
+                    placeholder="Tal como figura en la tarjeta"
+                  />
+                </div>
+
+                <p class="form-err card-frame__error" id="card-error" hidden>
+                  <Icon name="alert-triangle" size={14} />
+                  <span id="card-error-text"></span>
+                </p>
+              </div>
+
+              <p class="demo-rules">
+                Reglas de demostración: tarjeta terminada en 0002 se rechaza ·
+                en 0009 queda pendiente · cualquier otra se aprueba.
+              </p>
+
+              <div class="api-error" id="api-error" hidden>
+                <Alert variant="danger" title="No pudimos comunicarnos con el servidor">
+                  Intente nuevamente en unos minutos. Si el problema persiste,
+                  escríbanos por WhatsApp y completamos su compra en forma
+                  manual.
+                </Alert>
+                <WhatsAppButton
+                  label="Completar por WhatsApp"
+                  variant="outline"
+                  full
+                />
+              </div>
+
+              <div class="step__actions">
+                <Button type="submit" variant="primary" full class="js-pay">
+                  {submitLabel}
+                </Button>
+                <p class="pay-note">Pago seguro · MODO DEMO</p>
+                <Button type="button" variant="ghost" full class="js-back">
+                  Volver a sus datos
+                </Button>
+              </div>
+            </div>
+
+            <!-- Paso 3: procesando -->
+            <div class="step step--processing" data-step-panel="3" hidden>
+              <h2 class="step__title step__title--center" tabindex="-1" id="processing-title">
+                {processingLabel}
+              </h2>
+              <span class="spinner" aria-hidden="true"></span>
+              <p class="processing-note">No cierre esta ventana.</p>
+            </div>
+
+            <!-- Paso 4: resultado -->
+            <div class="step" data-step-panel="4" hidden>
+              <h2 class="step__title" tabindex="-1">Resultado</h2>
+
+              <div class="result" id="result-exito" hidden>
+                <Badge variant="success" class="js-result-badge">Aprobado</Badge>
+                <h3 class="result__title" id="result-exito-title"></h3>
+                <p class="result__text" id="result-exito-text"></p>
+                <ul class="result__steps">
+                  <li>Revise su bandeja de entrada (y la carpeta de correo no deseado).</li>
+                  <li>En minutos recibirá el código de acceso por email.</li>
+                  <li>Guarde el código: lo necesitará para instalar el software.</li>
+                </ul>
+                <WhatsAppButton
+                  label="¿Necesita ayuda? Escribanos"
+                  variant="outline"
+                />
+              </div>
+
+              <div class="result" id="result-rechazo" hidden>
+                <Alert variant="danger" title="No pudimos procesar el pago">
+                  Verifique los datos de la tarjeta e intente nuevamente. No se
+                  realizó ningún cargo.
+                </Alert>
+                <div class="result__actions">
+                  <Button type="button" variant="primary" full class="js-retry">
+                    Reintentar
+                  </Button>
+                  <WhatsAppButton
+                    label="Hablar por WhatsApp"
+                    variant="outline"
+                    full
+                  />
+                </div>
+              </div>
+
+              <div class="result" id="result-pendiente" hidden>
+                <Alert variant="warning" title="Estamos confirmando su pago">
+                  La confirmación puede demorar unos minutos. Revise su email:
+                  le avisaremos apenas se confirme. No damos el acceso por
+                  sentado hasta entonces.
+                </Alert>
+                <div class="result__actions">
+                  <WhatsAppButton
+                    label="Hablar por WhatsApp"
+                    variant="outline"
+                    full
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
+        </Card>
+
+        <aside class="summary" aria-label="Resumen del pedido">
+          <Card padding="lg" class="summary-card">
+            <h2 class="summary__title">Resumen del pedido</h2>
+            <dl class="summary__list">
+              <div class="summary__row">
+                <dt>Producto</dt>
+                <dd>{product.name}</dd>
+              </div>
+              <div class="summary__row">
+                <dt>Modalidad</dt>
+                <dd>{modality.label}</dd>
+              </div>
+              <div class="summary__row">
+                <dt>Precio</dt>
+                <dd>Se confirma al completar la compra</dd>
+              </div>
+              <div class="summary__row">
+                <dt>Entrega</dt>
+                <dd>Por email, en minutos</dd>
+              </div>
+            </dl>
+            {
+              modality.key === "mensual" && (
+                <p class="summary__note">
+                  Cobro automático todos los meses. Puede cancelar cuando
+                  quiera.
+                </p>
+              )
+            }
+            <p class="summary__change">
+              <a class="summary__link" href="/planes/">
+                Cambiar selección
+              </a>
+            </p>
+          </Card>
+          <p class="summary__support">
+            ¿Dudas con la compra?{" "}
+            <a
+              class="summary__link"
+              href="https://wa.me/5491150993627"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Escribanos por WhatsApp
+            </a>
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-sub {
+    margin-top: var(--space-2);
+    max-width: 60ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--ink-500);
+  }
+
+  .checkout-grid {
+    margin-top: var(--space-10);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .checkout-grid {
+      grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
+      column-gap: var(--space-8);
+    }
+  }
+
+  /* ---- Indicador de pasos ---- */
+  .stepper {
+    list-style: none;
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .stepper__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex: 1;
+    color: var(--ink-400);
+  }
+
+  .stepper__num {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    background: var(--border-subtle);
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+  }
+
+  .stepper__label {
+    font-size: var(--text-micro);
+    font-weight: var(--weight-semibold);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 639px) {
+    .stepper__label {
+      display: none;
+    }
+  }
+
+  .stepper__item--active {
+    color: var(--brand-900);
+  }
+
+  .stepper__item--active .stepper__num {
+    background: var(--brand-700);
+    border-color: var(--brand-700);
+    color: var(--surface);
+  }
+
+  /* ---- Pasos ---- */
+  .step__title {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-h3);
+    color: var(--brand-900);
+  }
+
+  .step__title--center {
+    text-align: center;
+  }
+
+  .step__actions {
+    margin-top: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  /* ---- Campos (mismos tokens que el resto del sitio) ---- */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin-bottom: var(--space-4);
+  }
+
+  .field__label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--ink-700);
+  }
+
+  .field__control {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px var(--space-4);
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--text-body);
+    color: var(--ink-900);
+    transition: border-color 150ms ease;
+  }
+
+  .field__control::placeholder {
+    color: var(--ink-400);
+  }
+
+  .field__control:focus {
+    outline: 2px solid var(--brand-700);
+    outline-offset: 2px;
+    border-color: var(--brand-700);
+  }
+
+  .field__control--error,
+  .field__control--error:focus {
+    border: 2px solid var(--danger-fg);
+    outline-color: var(--danger-fg);
+  }
+
+  .field__select-wrap {
+    position: relative;
+  }
+
+  .field__select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: var(--space-12);
+    cursor: pointer;
+  }
+
+  .field__chevron {
+    position: absolute;
+    top: 50%;
+    right: var(--space-4);
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--ink-500);
+    border-bottom: 2px solid var(--ink-500);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  .form-err {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-caption);
+    line-height: var(--leading-caption);
+    color: var(--danger-fg);
+  }
+
+  /* ---- Marco de tarjeta ---- */
+  .card-frame {
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    background: var(--brand-50);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+  }
+
+  .card-frame__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+  }
+
+  .card-frame__error {
+    margin-bottom: var(--space-1);
+  }
+
+  .demo-rules {
+    margin-top: var(--space-3);
+    font-size: var(--text-micro);
+    line-height: var(--leading-micro);
+    color: var(--ink-400);
+  }
+
+  .api-error {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .pay-note {
+    text-align: center;
+    font-size: var(--text-micro);
+    color: var(--ink-400);
+  }
+
+  /* ---- Procesando ---- */
+  .step--processing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-8);
+  }
+
+  .spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--brand-100);
+    border-top-color: var(--brand-700);
+    border-radius: var(--radius-pill);
+    animation: spin 700ms linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .processing-note {
+    font-size: var(--text-caption);
+    color: var(--ink-500);
+  }
+
+  /* ---- Resultados ---- */
+  .result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .result .badge {
+    align-self: flex-start;
+  }
+
+  .result__title {
+    font-size: var(--text-h3);
+    color: var(--brand-900);
+  }
+
+  .result__text {
+    font-size: var(--text-body);
+    color: var(--ink-700);
+  }
+
+  .result__steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--text-body);
+    color: var(--ink-700);
+  }
+
+  .result__steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .result__steps li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    margin-top: 8px;
+    background: var(--brand-700);
+    border-radius: var(--radius-pill);
+  }
+
+  .result__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  /* ---- Resumen ---- */
+  .summary__title {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-h3);
+    color: var(--brand-900);
+  }
+
+  .summary__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .summary__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    font-size: var(--text-body);
+  }
+
+  .summary__row dt {
+    flex-shrink: 0;
+    font-size: var(--text-caption);
+    color: var(--ink-500);
+  }
+
+  .summary__row dd {
+    text-align: right;
+    font-weight: var(--weight-semibold);
+    color: var(--ink-900);
+  }
+
+  .summary__note {
+    margin-top: var(--space-4);
+    padding: var(--space-3);
+    background: var(--brand-50);
+    border-radius: var(--radius-md);
+    font-size: var(--text-caption);
+    color: var(--ink-600);
+  }
+
+  .summary__change {
+    margin-top: var(--space-4);
+    font-size: var(--text-caption);
+  }
+
+  .summary__link {
+    color: var(--brand-700);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+  }
+
+  .summary__link:hover {
+    text-decoration: underline;
+  }
+
+  .summary__support {
+    margin-top: var(--space-4);
+    font-size: var(--text-micro);
+    color: var(--ink-500);
+  }
+</style>
+
+<script>
+  // Flujo de pago (vanilla JS, sin frameworks). Paso 1 datos -> 2 tarjeta ->
+  // 3 procesando -> 4 resultado. El POST va a /api/checkout (pago anual) o
+  // /api/subscribe (mensual). Si la API no responde, se muestra un estado de
+  // error amable con alternativa por WhatsApp (contrato-api.md §6).
+
+  type Step = 1 | 2 | 3 | 4;
+
+  const form = document.getElementById("checkout-form") as HTMLFormElement;
+  const root = document.querySelector<HTMLElement>(".checkout-grid");
+  const modality = root?.dataset.modality ?? "mensual";
+  const productSlug = root?.dataset.productSlug ?? "";
+
+  const panels = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-step-panel]"),
+  );
+  const stepperItems = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-step-item]"),
+  );
+  const statusRegion = document.getElementById("form-status");
+
+  const $ = <T extends HTMLElement>(id: string): T =>
+    document.getElementById(id) as T;
+
+  const inputs = {
+    fullname: $<HTMLInputElement>("fullname"),
+    email: $<HTMLInputElement>("email"),
+    emailConfirm: $<HTMLInputElement>("email-confirm"),
+    country: $<HTMLSelectElement>("country"),
+    cardNumber: $<HTMLInputElement>("card-number"),
+    cardExpiry: $<HTMLInputElement>("card-expiry"),
+    cardCvc: $<HTMLInputElement>("card-cvc"),
+    cardHolder: $<HTMLInputElement>("card-holder"),
+  };
+
+  const errors = {
+    fullname: $<HTMLElement>("fullname-error"),
+    email: $<HTMLElement>("email-error"),
+    emailConfirm: $<HTMLElement>("email-confirm-error"),
+    country: $<HTMLElement>("country-error"),
+    card: $<HTMLElement>("card-error"),
+  };
+
+  const cardErrorText = $<HTMLElement>("card-error-text");
+  const apiError = $<HTMLElement>("api-error");
+  const processingTitle = $<HTMLElement>("processing-title");
+  const payButton = document.querySelector<HTMLButtonElement>(".js-pay");
+
+  function setFieldError(
+    field: HTMLInputElement | HTMLSelectElement,
+    errorEl: HTMLElement | null,
+    message: string | null,
+  ): void {
+    if (!errorEl) return;
+    const hasError = message !== null;
+    errorEl.hidden = !hasError;
+    if (hasError && errorEl.querySelector("span")) {
+      errorEl.querySelector("span")!.textContent = message;
+    }
+    field.classList.toggle("field__control--error", hasError);
+    if (hasError) {
+      field.setAttribute("aria-invalid", "true");
+      field.setAttribute("aria-describedby", errorEl.id);
+    } else {
+      field.removeAttribute("aria-invalid");
+      field.removeAttribute("aria-describedby");
+    }
+  }
+
+  function goTo(step: Step): void {
+    panels.forEach((panel) => {
+      const panelStep = Number(panel.dataset.stepPanel);
+      panel.hidden = panelStep !== step;
+    });
+    stepperItems.forEach((item) => {
+      const itemStep = Number(item.dataset.stepItem);
+      const active = itemStep === step;
+      item.classList.toggle("stepper__item--active", active);
+      if (active) {
+        item.setAttribute("aria-current", "step");
+      } else {
+        item.removeAttribute("aria-current");
+      }
+    });
+    if (statusRegion) {
+      const labels = ["", "Sus datos", "Datos de la tarjeta", "Procesando", "Resultado"];
+      statusRegion.textContent = `Paso ${step} de 4: ${labels[step]}`;
+    }
+    const panel = panels.find((p) => Number(p.dataset.stepPanel) === step);
+    const title = panel?.querySelector<HTMLElement>(".step__title");
+    requestAnimationFrame(() => title?.focus());
+  }
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function validateStep1(): boolean {
+    let ok = true;
+    const name = inputs.fullname.value.trim();
+    const email = inputs.email.value.trim();
+    const confirm = inputs.emailConfirm.value.trim();
+    const country = inputs.country.value;
+
+    if (name.length < 3) {
+      setFieldError(inputs.fullname, errors.fullname, "Ingrese su nombre y apellido.");
+      ok = false;
+    } else {
+      setFieldError(inputs.fullname, errors.fullname, null);
+    }
+
+    if (!EMAIL_RE.test(email)) {
+      setFieldError(inputs.email, errors.email, "Ingrese un email válido.");
+      ok = false;
+    } else {
+      setFieldError(inputs.email, errors.email, null);
+    }
+
+    if (!confirm || confirm !== email) {
+      setFieldError(inputs.emailConfirm, errors.emailConfirm, "Los emails no coinciden.");
+      ok = false;
+    } else {
+      setFieldError(inputs.emailConfirm, errors.emailConfirm, null);
+    }
+
+    if (!country) {
+      setFieldError(inputs.country, errors.country, "Seleccione su país.");
+      ok = false;
+    } else {
+      setFieldError(inputs.country, errors.country, null);
+    }
+
+    return ok;
+  }
+
+  const EXPIRY_RE = /^(0[1-9]|1[0-2])\/\d{2}$/;
+
+  function validateStep2(): boolean {
+    const digits = inputs.cardNumber.value.replace(/\s+/g, "");
+    const expiry = inputs.cardExpiry.value.trim();
+    const cvc = inputs.cardCvc.value.trim();
+    const holder = inputs.cardHolder.value.trim();
+
+    let message: string | null = null;
+    if (digits.length < 15 || digits.length > 16) {
+      message = "Ingrese un número de tarjeta válido (15 o 16 dígitos).";
+    } else if (!EXPIRY_RE.test(expiry)) {
+      message = "Ingrese el vencimiento en formato MM/AA.";
+    } else if (!/^\d{3,4}$/.test(cvc)) {
+      message = "Ingrese el código de seguridad (3 o 4 dígitos).";
+    } else if (holder.length < 3) {
+      message = "Ingrese el titular tal como figura en la tarjeta.";
+    }
+
+    const cardField = inputs.cardNumber;
+    setFieldError(cardField, errors.card, message);
+    return message === null;
+  }
+
+  // Formateo amable de número y vencimiento.
+  inputs.cardNumber.addEventListener("input", () => {
+    const digits = inputs.cardNumber.value.replace(/\D+/g, "").slice(0, 16);
+    inputs.cardNumber.value = digits.replace(/(\d{4})(?=\d)/g, "$1 ");
+  });
+
+  inputs.cardExpiry.addEventListener("input", () => {
+    const digits = inputs.cardExpiry.value.replace(/\D+/g, "").slice(0, 4);
+    inputs.cardExpiry.value =
+      digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
+  });
+
+  inputs.cardCvc.addEventListener("input", () => {
+    inputs.cardCvc.value = inputs.cardCvc.value.replace(/\D+/g, "").slice(0, 4);
+  });
+
+  document
+    .querySelector<HTMLButtonElement>(".js-to-card")
+    ?.addEventListener("click", () => {
+      if (validateStep1()) goTo(2);
+    });
+
+  document.querySelector<HTMLButtonElement>(".js-back")?.addEventListener("click", () => {
+    goTo(1);
+  });
+
+  document.querySelector<HTMLButtonElement>(".js-retry")?.addEventListener("click", () => {
+    apiError.hidden = true;
+    goTo(2);
+  });
+
+  function formatDate(iso: string): string {
+    const datePart = iso.split("T")[0];
+    const [year, month, day] = datePart.split("-");
+    return day && month && year ? `${day}/${month}/${year}` : datePart;
+  }
+
+  async function submitPayment(): Promise<void> {
+    if (!validateStep2()) return;
+    if (!payButton) return;
+
+    apiError.hidden = true;
+    payButton.disabled = true;
+    processingTitle.textContent =
+      modality === "mensual" ? "Procesando suscripción…" : "Procesando pago…";
+    goTo(3);
+
+    const digits = inputs.cardNumber.value.replace(/\s+/g, "");
+    const last4 = digits.slice(-4);
+    const endpoint = modality === "mensual" ? "/api/subscribe" : "/api/checkout";
+
+    const payload = {
+      productSlug: `${productSlug}-${modality}`,
+      customer: {
+        fullName: inputs.fullname.value.trim(),
+        email: inputs.email.value.trim(),
+        country: inputs.country.value,
+      },
+      card: {
+        token: `demo-token-${last4}`,
+        last4,
+      },
+    };
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = (await response.json()) as {
+        status?: string;
+        nextPaymentDate?: string;
+      };
+      showResult(data);
+    } catch {
+      // La API no respondió: error amable con alternativa por WhatsApp.
+      payButton.disabled = false;
+      apiError.hidden = false;
+      goTo(2);
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  function showResult(data: { status?: string; nextPaymentDate?: string }): void {
+    const status = data.status ?? "rejected";
+    const exito = $<HTMLElement>("result-exito");
+    const rechazo = $<HTMLElement>("result-rechazo");
+    const pendiente = $<HTMLElement>("result-pendiente");
+
+    exito.hidden = true;
+    rechazo.hidden = true;
+    pendiente.hidden = true;
+
+    const badge = document.querySelector<HTMLElement>(".js-result-badge");
+    const exitoTitle = $<HTMLElement>("result-exito-title");
+    const exitoText = $<HTMLElement>("result-exito-text");
+
+    const isMonthly = modality === "mensual";
+    const success =
+      (isMonthly && status === "active") || (!isMonthly && status === "paid");
+
+    if (success) {
+      exito.hidden = false;
+      if (badge) {
+        badge.textContent = isMonthly ? "Suscripción activa" : "Pago aprobado";
+      }
+      exitoTitle.textContent = isMonthly
+        ? "Su suscripción está activa"
+        : "Su compra fue aprobada";
+      if (isMonthly && data.nextPaymentDate) {
+        exitoText.textContent = `El próximo cobro mensual será el ${formatDate(data.nextPaymentDate)}. En minutos recibirá el código de acceso en su email.`;
+      } else {
+        exitoText.textContent = "En minutos recibirá el código de acceso en su email.";
+      }
+    } else if (status === "pending") {
+      pendiente.hidden = false;
+    } else {
+      rechazo.hidden = false;
+    }
+    goTo(4);
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    void submitPayment();
+  });
+</script>

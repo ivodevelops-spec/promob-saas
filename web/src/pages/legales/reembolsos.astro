@@ -1,0 +1,59 @@
+---
+import LegalPage from "../../components/LegalPage.astro";
+
+const sections = [
+  {
+    id: "alcance",
+    title: "Alcance",
+    paragraphs: [
+      "Esta política regula las solicitudes de reembolso y la baja de las suscripciones a los productos de software distribuidos por PROMOB Argentina.",
+    ],
+  },
+  {
+    id: "mensual",
+    title: "Suscripción mensual",
+    paragraphs: [
+      "En la modalidad de suscripción mensual, usted puede solicitar la baja en cualquier momento, sin penalidad. La baja se aplica al finalizar el período ya abonado y no se realizan nuevos cobros.",
+      "El acceso al software permanece activo hasta el último día del período abonado.",
+    ],
+  },
+  {
+    id: "anual",
+    title: "Pago único anual",
+    paragraphs: [
+      "En la modalidad de pago único anual, puede solicitar el reembolso dentro de los primeros 7 días corridos desde la compra, siempre que no se haya hecho uso efectivo del código de acceso.",
+      "Pasado ese plazo, el pago anual no es reembolsable, sin perjuicio de los derechos que la normativa de defensa del consumidor le reconozca.",
+    ],
+  },
+  {
+    id: "solicitud",
+    title: "Cómo solicitar un reembolso o baja",
+    paragraphs: [
+      "Escríbanos por WhatsApp al número publicado en el sitio o desde la página de contacto, indicando su nombre, email y número de compra. Procesamos las solicitudes dentro de los 5 días hábiles y le enviamos confirmación escrita.",
+    ],
+  },
+  {
+    id: "plazos",
+    title: "Plazos de devolución",
+    paragraphs: [
+      "Los reembolsos aprobados se cursan por el mismo medio de pago utilizado en la compra. El tiempo de acreditación depende de su banco o emisor de tarjeta.",
+    ],
+  },
+  {
+    id: "excepciones",
+    title: "Excepciones",
+    paragraphs: [
+      "No corresponden reembolsos cuando el código de acceso ya fue utilizado, ni por la falta de compatibilidad del software con equipos que no cumplan los requisitos técnicos publicados.",
+    ],
+  },
+];
+---
+
+<LegalPage
+  title="Política de reembolsos y baja — PROMOB"
+  description="Política de reembolsos y baja de suscripciones de PROMOB Argentina."
+  canonical="/legales/reembolsos/"
+  heading="Política de reembolsos y baja"
+  updated="Vista previa: fecha a confirmar por el cliente"
+  sections={sections}
+/>

@@ -1,22 +1,32 @@
 ---
 import Icon from "./Icon.astro";
 
+interface FaqLink {
+  href: string;
+  label: string;
+  external?: boolean;
+}
+
 interface FaqItem {
   question: string;
   answer: string;
+  /** Enlace de cierre (p. ej. a Contacto o WhatsApp). */
+  link?: FaqLink;
 }
 
 interface Props {
   items: FaqItem[];
+  /** Abrir el primer ítem por defecto. Default: true. */
+  openFirst?: boolean;
   class?: string;
 }
 
-const { items, class: className } = Astro.props;
+const { items, openFirst = true, class: className } = Astro.props;
 ---
 
 <div class:list={["accordion", className]}>
   {items.map((item, index) => (
-    <details class="accordion__item" open={index === 0}>
+    <details class="accordion__item" open={openFirst && index === 0}>
       <summary class="accordion__summary">
         <span>{item.question}</span>
         <span class="accordion__icon" aria-hidden="true">
@@ -25,6 +35,19 @@ const { items, class: className } = Astro.props;
       </summary>
       <div class="accordion__answer">
         <p>{item.answer}</p>
+        {
+          item.link && (
+            <p class="accordion__link">
+              <a
+                href={item.link.href}
+                target={item.link.external ? "_blank" : undefined}
+                rel={item.link.external ? "noopener noreferrer" : undefined}
+              >
+                {item.link.label}
+              </a>
+            </p>
+          )
+        }
       </div>
     </details>
   ))}
@@ -84,5 +107,20 @@ const { items, class: className } = Astro.props;
     padding: 0 var(--space-4) var(--space-4);
     font-size: var(--text-body);
     color: var(--ink-700);
+  }
+
+  .accordion__link {
+    margin-top: var(--space-2);
+    font-size: var(--text-caption);
+  }
+
+  .accordion__link a {
+    color: var(--brand-700);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+  }
+
+  .accordion__link a:hover {
+    text-decoration: underline;
   }
 </style>

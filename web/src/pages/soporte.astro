@@ -1,0 +1,296 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Accordion from "../components/Accordion.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import Button from "../components/Button.astro";
+
+const WA_LINK = {
+  href: "https://wa.me/5491150993627",
+  label: "Hablar por WhatsApp",
+  external: true,
+};
+
+const CONTACT_LINK = {
+  href: "/contacto/",
+  label: "Ir a la página de contacto",
+};
+
+const grupos = [
+  {
+    id: "pagos",
+    title: "Pagos y suscripción",
+    items: [
+      {
+        question: "¿Cómo se cobra la suscripción mensual?",
+        answer:
+          "El cobro se realiza automáticamente con la tarjeta que registró al suscribirse, todos los meses en la misma fecha. Antes de cada cobro le enviamos un recordatorio por email, para que nunca lo tome por sorpresa.",
+      },
+      {
+        question: "¿Puedo pagar el año por adelantado?",
+        answer:
+          "Sí. El pago único anual le da dos meses de regalo frente al plan mensual: paga una sola vez y no se preocupa por renovaciones durante un año.",
+      },
+      {
+        question: "¿Qué pasa si un cobro no se procesa?",
+        answer:
+          "Le avisamos por email y reintentamos el cobro durante los días siguientes. Mientras tanto, su acceso sigue activo. Si la situación se extiende, lo contactamos antes de suspender el servicio.",
+        link: CONTACT_LINK,
+      },
+      {
+        question: "¿Es seguro pagar con tarjeta?",
+        answer:
+          "Sí. El pago se procesa a través de Mercado Pago, el procesador líder de la región. Nosotros no almacenamos los datos completos de su tarjeta.",
+      },
+    ],
+  },
+  {
+    id: "entrega",
+    title: "Entrega del acceso",
+    items: [
+      {
+        question: "¿Cuándo recibo el código de acceso?",
+        answer:
+          "En minutos, una vez confirmado el pago. Le llegan dos correos: el comprobante y el código de acceso con las instrucciones de instalación.",
+      },
+      {
+        question: "¿A qué email llega el código?",
+        answer:
+          "Al email que registró al momento de la compra. Si no lo encuentra, revise la carpeta de correo no deseado; si sigue sin aparecer, escríbanos y lo reenviamos.",
+        link: WA_LINK,
+      },
+      {
+        question: "¿Puedo usar el software en más de una computadora?",
+        answer:
+          "Depende del producto y del plan elegido. Consúltenos su caso particular y le indicamos la opción que mejor se adapta a su taller.",
+        link: CONTACT_LINK,
+      },
+    ],
+  },
+  {
+    id: "renovacion",
+    title: "Renovación y cancelación",
+    items: [
+      {
+        question: "¿Cómo cancelo mi suscripción?",
+        answer:
+          "Escríbanos por WhatsApp o desde la página de contacto. Procesamos la baja y le enviamos una confirmación escrita. No hay trámites ocultos.",
+        link: WA_LINK,
+      },
+      {
+        question: "¿Hay penalidad por cancelar?",
+        answer:
+          "No. Puede cancelar cuando quiera. La suscripción queda activa hasta el final del período ya abonado y no se realizan más cobros.",
+      },
+      {
+        question: "¿La renovación es automática?",
+        answer:
+          "En la suscripción mensual, sí: el cobro se renueva automáticamente para que nunca se quede sin acceso. En el pago único anual, no: al terminar el año le avisamos para que decida si continúa.",
+      },
+      {
+        question: "¿Qué pasa con mi información al darme de baja?",
+        answer:
+          "Conservamos sus datos solo durante el plazo que exige la normativa para temas contables y fiscales. Después, se eliminan.",
+        link: {
+          href: "/legales/privacidad/",
+          label: "Ver la política de privacidad",
+        },
+      },
+    ],
+  },
+  {
+    id: "soporte-software",
+    title: "Soporte del software",
+    items: [
+      {
+        question: "¿Quién me ayuda a instalar el software?",
+        answer:
+          "El equipo de soporte local lo acompaña paso a paso en la instalación y en la primera puesta en marcha, sin costo adicional.",
+      },
+      {
+        question: "¿El soporte es en español?",
+        answer:
+          "Sí. Todo el soporte se brinda en español, por WhatsApp y por email, en el horario de atención de Argentina.",
+        link: WA_LINK,
+      },
+      {
+        question: "¿Hay capacitación para mi equipo?",
+        answer:
+          "Sí. Además del acompañamiento inicial, podemos coordinar sesiones de capacitación para que todo su equipo trabaje con el software desde el primer día.",
+        link: CONTACT_LINK,
+      },
+    ],
+  },
+  {
+    id: "exterior",
+    title: "Compras desde el exterior",
+    items: [
+      {
+        question: "¿En qué moneda pago si estoy fuera de Argentina?",
+        answer:
+          "El pago se procesa siempre en pesos argentinos (ARS). Su banco o su tarjeta aplican la conversión a su moneda local al momento del cobro.",
+      },
+      {
+        question: "¿El precio es el mismo para Uruguay, Chile y Paraguay?",
+        answer:
+          "El precio de lista es el mismo para los cuatro países; lo que puede variar es el importe final en su moneda, según la cotización que aplique su banco el día del cobro.",
+      },
+      {
+        question: "¿Cómo recibo la factura?",
+        answer:
+          "Le enviamos el comprobante por email al momento de la compra. Si necesita un documento específico para su contabilidad, escríbanos y lo gestionamos.",
+        link: CONTACT_LINK,
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Soporte y preguntas frecuentes — PROMOB"
+  description="Respuestas a las preguntas más frecuentes sobre pagos, entrega del acceso, renovación y cancelación, soporte del software y compras desde el exterior."
+  canonical="/soporte/"
+  current="soporte"
+>
+  <section class="section">
+    <div class="container">
+      <h1>Soporte</h1>
+      <p class="page-sub">
+        Respuestas a las preguntas más frecuentes. Si no encuentra lo que
+        busca, escríbanos: el equipo local responde en español.
+      </p>
+
+      <nav class="faq-nav" aria-label="Temas de ayuda">
+        <ul class="faq-nav__list">
+          {grupos.map((grupo) => (
+            <li>
+              <a class="faq-nav__link" href={`#${grupo.id}`}>
+                {grupo.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="faq-groups">
+        {grupos.map((grupo) => (
+          <section class="faq-group" aria-labelledby={`${grupo.id}-titulo`}>
+            <h2 id={`${grupo.id}-titulo`} class="faq-group__title">
+              {grupo.title}
+            </h2>
+            <Accordion items={grupo.items} openFirst={false} />
+          </section>
+        ))}
+      </div>
+
+      <div class="support-cta">
+        <h2 class="support-cta__title">¿No encontró su respuesta?</h2>
+        <p class="support-cta__text">
+          Escríbanos por WhatsApp o complete el formulario de contacto: le
+          respondemos en el día.
+        </p>
+        <div class="support-cta__actions">
+          <WhatsAppButton label="Hablar por WhatsApp" />
+          <Button href="/contacto/" variant="outline">Ir a contacto</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-sub {
+    margin-top: var(--space-2);
+    max-width: 60ch;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: var(--ink-500);
+  }
+
+  .faq-nav {
+    margin-top: var(--space-8);
+  }
+
+  .faq-nav__list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .faq-nav__link {
+    display: inline-block;
+    padding: 7px var(--space-4);
+    background: var(--surface);
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    color: var(--ink-600);
+    text-decoration: none;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease;
+  }
+
+  .faq-nav__link:hover {
+    background: var(--brand-50);
+    border-color: var(--brand-700);
+    color: var(--brand-700);
+  }
+
+  .faq-groups {
+    margin-top: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .faq-group__title {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-h3);
+    color: var(--brand-900);
+  }
+
+  .support-cta {
+    margin-top: var(--space-12);
+    padding: var(--space-6);
+    background: var(--surface);
+    border: 2px solid var(--brand-700);
+    border-radius: var(--radius-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 768px) {
+    .support-cta {
+      padding: var(--space-6) var(--space-8);
+    }
+  }
+
+  .support-cta__title {
+    color: var(--brand-900);
+  }
+
+  .support-cta__text {
+    font-size: var(--text-body);
+    color: var(--ink-600);
+  }
+
+  .support-cta__actions {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .support-cta__actions {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+</style>

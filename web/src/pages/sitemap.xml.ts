@@ -8,6 +8,13 @@ export const GET: APIRoute = () => {
     "/",
     "/productos/",
     ...products.map((product) => `/productos/${product.slug}/`),
+    "/planes/",
+    "/checkout/",
+    "/contacto/",
+    "/soporte/",
+    "/legales/terminos/",
+    "/legales/privacidad/",
+    "/legales/reembolsos/",
   ];
 
   const urls = paths

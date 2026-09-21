@@ -1,0 +1,76 @@
+---
+import LegalPage from "../../components/LegalPage.astro";
+
+const sections = [
+  {
+    id: "objeto",
+    title: "Objeto",
+    paragraphs: [
+      "El presente documento regula el acceso y el uso del sitio web de PROMOB Argentina, así como la contratación de licencias de uso de los productos de software distribuidos por el Distribuidor Oficial para Argentina, Uruguay, Chile y Paraguay.",
+      "Al utilizar el sitio o contratar un producto, usted declara haber leído y aceptado estos términos. Si no está de acuerdo, le solicitamos no utilizar el servicio.",
+    ],
+  },
+  {
+    id: "uso",
+    title: "Uso del servicio",
+    paragraphs: [
+      "Usted se compromete a utilizar el sitio y el software únicamente para los fines para los que fueron creados, sin intentar vulnerar, copiar o redistribuir el software más allá de lo autorizado por la licencia contratada.",
+      "El acceso al software es personal e intransferible, salvo autorización expresa por escrito.",
+    ],
+  },
+  {
+    id: "licencias",
+    title: "Licencias y acceso",
+    paragraphs: [
+      "La contratación otorga una licencia de uso del producto elegido por el plazo de la modalidad contratada: mensual o anual. La licencia no transfiere la propiedad del software ni del material incluido.",
+      "El código de acceso se entrega por email una vez confirmado el pago. Usted es responsable de conservarlo y de no compartirlo con terceros.",
+    ],
+  },
+  {
+    id: "pagos",
+    title: "Pagos y facturación",
+    paragraphs: [
+      "Los pagos se procesan en pesos argentinos (ARS) a través de los medios habilitados en el sitio. Si compra desde el exterior, su banco puede aplicar la conversión a su moneda local.",
+      "En la modalidad de suscripción mensual, el cobro se realiza automáticamente en la periodicidad contratada. En la modalidad de pago único anual, el cobro se realiza una sola vez.",
+    ],
+  },
+  {
+    id: "responsabilidad",
+    title: "Responsabilidades",
+    paragraphs: [
+      "PROMOB Argentina actúa como distribuidor oficial. El software se entrega en el estado en que lo provee su fabricante, con el soporte local descripto en el sitio.",
+      "En la máxima medida permitida por la ley aplicable, no seremos responsables por daños indirectos o lucro cesante derivados del uso del software.",
+    ],
+  },
+  {
+    id: "suspension",
+    title: "Suspensión y baja",
+    paragraphs: [
+      "La suspensión o baja del servicio se rige por la política de reembolsos y baja, disponible en este sitio. La cancelación de la suscripción puede solicitarse en cualquier momento por WhatsApp o desde la página de contacto.",
+    ],
+  },
+  {
+    id: "modificaciones",
+    title: "Modificaciones",
+    paragraphs: [
+      "Podremos actualizar estos términos cuando resulte necesario. La versión vigente se publica siempre en esta página, con su fecha de actualización.",
+    ],
+  },
+  {
+    id: "legislacion",
+    title: "Legislación aplicable",
+    paragraphs: [
+      "Estos términos se rigen por las leyes de la República Argentina. Cualquier controversia se someterá a los tribunales competentes de la Ciudad Autónoma de Buenos Aires.",
+    ],
+  },
+];
+---
+
+<LegalPage
+  title="Términos y condiciones — PROMOB"
+  description="Términos y condiciones de uso del sitio y contratación de los productos PROMOB."
+  canonical="/legales/terminos/"
+  heading="Términos y condiciones"
+  updated="Vista previa: fecha a confirmar por el cliente"
+  sections={sections}
+/>

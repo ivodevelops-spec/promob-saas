@@ -1,0 +1,74 @@
+---
+import LegalPage from "../../components/LegalPage.astro";
+
+const sections = [
+  {
+    id: "responsable",
+    title: "Responsable del tratamiento",
+    paragraphs: [
+      "El responsable del tratamiento de sus datos personales es el Distribuidor Oficial de PROMOB para Argentina, Uruguay, Chile y Paraguay, con domicilio en Argentina.",
+      "Ante cualquier consulta sobre sus datos, puede escribirnos desde la página de contacto o por WhatsApp.",
+    ],
+  },
+  {
+    id: "datos",
+    title: "Datos que recopilamos",
+    paragraphs: [
+      "Recopilamos los datos que usted nos facilita al comprar o contactarnos: nombre y apellido, email, país y, si corresponde, empresa. También registramos los datos de facturación necesarios para emitir los comprobantes.",
+      "No almacenamos los datos completos de su tarjeta: el pago se procesa a través de un proveedor externo de pagos.",
+    ],
+  },
+  {
+    id: "finalidad",
+    title: "Finalidad",
+    paragraphs: [
+      "Utilizamos sus datos para entregarle el acceso al software, gestionar su suscripción y cobros, enviarle comprobantes y notificaciones del servicio, y responder sus consultas.",
+      "No vendemos ni cedemos sus datos a terceros con fines publicitarios.",
+    ],
+  },
+  {
+    id: "base",
+    title: "Base legal",
+    paragraphs: [
+      "El tratamiento se realiza sobre la base de la ejecución del contrato de licencia que usted acepta al comprar, y del interés legítimo en comunicarle novedades del servicio que ya contrató.",
+    ],
+  },
+  {
+    id: "conservacion",
+    title: "Conservación",
+    paragraphs: [
+      "Conservamos sus datos mientras su suscripción esté activa y, una vez finalizada, durante los plazos que exigen las normas contables y fiscales aplicables.",
+    ],
+  },
+  {
+    id: "derechos",
+    title: "Derechos del titular",
+    paragraphs: [
+      "Usted puede solicitar el acceso, la rectificación, la actualización y la supresión de sus datos personales, así como retirar su consentimiento, escribiéndonos por los canales de contacto del sitio.",
+    ],
+  },
+  {
+    id: "cookies",
+    title: "Cookies",
+    paragraphs: [
+      "Este sitio no utiliza cookies de seguimiento publicitario. Si en el futuro incorporáramos cookies técnicas o de medición, esta política se actualizará antes de su uso.",
+    ],
+  },
+  {
+    id: "contacto",
+    title: "Contacto",
+    paragraphs: [
+      "Para ejercer sus derechos o consultar sobre esta política, escríbanos por WhatsApp al número publicado en el sitio o desde la página de contacto.",
+    ],
+  },
+];
+---
+
+<LegalPage
+  title="Política de privacidad — PROMOB"
+  description="Política de privacidad y protección de datos personales de PROMOB Argentina."
+  canonical="/legales/privacidad/"
+  heading="Política de privacidad"
+  updated="Vista previa: fecha a confirmar por el cliente"
+  sections={sections}
+/>

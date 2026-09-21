@@ -1,5 +1,6 @@
 ---
 import Icon from "./Icon.astro";
+import Button from "./Button.astro";
 import WhatsAppButton from "./WhatsAppButton.astro";
 
 interface Props {
@@ -8,9 +9,24 @@ interface Props {
   tag?: string;
   benefits: string[];
   featured?: boolean;
+  /** Si se indica, la CTA enlaza a esta URL (p. ej. /checkout/) en vez de WhatsApp. */
+  ctaHref?: string;
+  /** Etiqueta de la CTA cuando hay `ctaHref`. Default: "Consultar". */
+  ctaLabel?: string;
+  /** Nota bajo el monto. Default: "Precios próximamente: consulte por WhatsApp." */
+  note?: string;
 }
 
-const { title, period, tag, benefits, featured = false } = Astro.props;
+const {
+  title,
+  period,
+  tag,
+  benefits,
+  featured = false,
+  ctaHref,
+  ctaLabel = "Consultar",
+  note = "Precios próximamente: consulte por WhatsApp.",
+} = Astro.props;
 ---
 
 <article class:list={["plan", { "plan--featured": featured }]}>
@@ -19,7 +35,7 @@ const { title, period, tag, benefits, featured = false } = Astro.props;
   <p class="plan__price">
     <span class="plan__amount">Consultar</span>
     {period && <span class="plan__period">{period}</span>}
-    <span class="plan__note">Precios próximamente: consulte por WhatsApp.</span>
+    <span class="plan__note">{note}</span>
   </p>
   <ul class="plan__benefits">
     {benefits.map((benefit) => (
@@ -29,11 +45,19 @@ const { title, period, tag, benefits, featured = false } = Astro.props;
       </li>
     ))}
   </ul>
-  <WhatsAppButton
-    label="Consultar"
-    variant={featured ? "primary" : "outline"}
-    full
-  />
+  {
+    ctaHref ? (
+      <Button href={ctaHref} variant={featured ? "primary" : "outline"} full>
+        {ctaLabel}
+      </Button>
+    ) : (
+      <WhatsAppButton
+        label="Consultar"
+        variant={featured ? "primary" : "outline"}
+        full
+      />
+    )
+  }
 </article>
 
 <style>
