@@ -1,0 +1,9 @@
+node_modules/
+dist/
+web/dist/
+admin/dist/
+web/.astro/
+.astro/
+package-lock.json
+playwright-report/
+test-results/
