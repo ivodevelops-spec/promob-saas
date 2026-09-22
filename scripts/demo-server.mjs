@@ -229,6 +229,42 @@ async function handleSimulate(req, res, demo) {
   }
 }
 
+/** Lista los emails generados (bandeja de salida del demo). */
+async function handleOutboxList(res) {
+  const outboxDir = path.join(root, "out", "outbox");
+  let files = [];
+  try {
+    const entries = await readdir(outboxDir);
+    files = entries
+      .filter((name) => name.endsWith(".html"))
+      .sort()
+      .reverse()
+      .slice(0, 100)
+      .map((name) => ({ file: name, url: `/api/demo/outbox/${encodeURIComponent(name)}` }));
+  } catch {
+    files = [];
+  }
+  return sendJson(res, 200, { ok: true, count: files.length, files });
+}
+
+/** Sirve un email HTML de la bandeja de salida (nombre validado, sin traversal). */
+async function handleOutboxFile(res, pathname) {
+  const name = decodeURIComponent(pathname.slice("/api/demo/outbox/".length));
+  if (!/^[A-Za-z0-9._-]+\.html$/.test(name)) {
+    return sendJson(res, 400, { error: { code: "bad_name", message: "Nombre inválido." } });
+  }
+  try {
+    const content = await readFile(path.join(root, "out", "outbox", name));
+    res.writeHead(200, {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-store",
+    });
+    res.end(content);
+  } catch {
+    return sendJson(res, 404, { error: { code: "not_found", message: "Email no encontrado." } });
+  }
+}
+
 // --- Arranque -----------------------------------------------------------------------------
 
 async function main() {
@@ -247,6 +283,12 @@ async function main() {
 
       if (pathname === "/api/demo/simulate" && req.method === "POST") {
         return await handleSimulate(req, res, demo);
+      }
+      if (pathname === "/api/demo/outbox" && req.method === "GET") {
+        return await handleOutboxList(res);
+      }
+      if (pathname.startsWith("/api/demo/outbox/") && req.method === "GET") {
+        return await handleOutboxFile(res, pathname);
       }
       if (pathname.startsWith("/api/")) {
         const name = pathname.slice("/api/".length).replace(/\/+$/, "");

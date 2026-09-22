@@ -1,0 +1,17 @@
+# Render Blueprint — demo online de Promob (servidor de demo persistente).
+#
+# Un solo servicio web que compila el sitio + panel y corre el servidor de demo
+# (memoria + mock + outbox). El plan free alcanza: la instancia se duerme sin
+# tráfico y re-siembra los datos de demo al despertar.
+services:
+  - type: web
+    name: promob-demo
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: node scripts/demo-server.mjs
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
